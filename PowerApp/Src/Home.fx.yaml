@@ -1,0 +1,2296 @@
+"Home As screen.'autoLayout_Sidebar_ver1.0'":
+    BackgroundImage: ='Polygon Luminary'
+    Fill: =Button6.HoverFill
+    ImagePosition: =If(App.ActiveScreen.Size <= 2, ImagePosition.Center, ImagePosition.Stretch)
+    LoadingSpinnerColor: =RGBA(73, 130, 5, 1)
+    OnVisible: =
+
+    conHomeScreen As groupContainer.verticalAutoLayoutContainer:
+        DropShadow: =DropShadow.Light
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutGap: =8
+        LayoutMode: =LayoutMode.Auto
+        PaddingBottom: =16
+        PaddingLeft: =16
+        PaddingRight: =16
+        PaddingTop: =16
+        RadiusBottomLeft: =4
+        RadiusBottomRight: =4
+        RadiusTopLeft: =4
+        RadiusTopRight: =4
+        Width: =Parent.Width
+        ZIndex: =1
+
+        conHomeHeader As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =gblAppColors.TeamsDarkTint40
+            BorderThickness: =1
+            DropShadow: =DropShadow.Regular
+            Fill: =RGBA(255, 255, 255, 1)
+            FillPortions: =0
+            Height: =75
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            ZIndex: =1
+
+            "GCHomeHeader As 'GC Header'":
+                AppName: =If(App.ActiveScreen.Size <= 2, "Asset List", "Asset Management App")
+                Fill: =GCHomeHeader.gblAppColors.BackgroundDefault
+                gblAppColors: =gblAppColors
+                Height: =Parent.Height
+                Home: =If(App.ActiveScreen.Size <= 2, MobileHome, Home)
+                LayoutMinHeight: =640
+                LayoutMinWidth: =640
+                ScreenSize: =App.ActiveScreen.Size
+                User: =
+                UserFullName: =User().FullName
+                UserImage: =User().Image
+                Width: =Parent.Width
+
+        conHomeMain As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            DropShadow: =DropShadow.Light
+            Height: =App.Height - conHomeHeader.Height
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =8
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            LayoutWrap: =true
+            PaddingBottom: =2
+            PaddingLeft: =2
+            PaddingRight: =2
+            PaddingTop: =2
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            ZIndex: =2
+
+            conMainSide As groupContainer.verticalAutoLayoutContainer:
+                AlignInContainer: =If(App.ActiveScreen.Size <= 2, AlignInContainer.Start, AlignInContainer.Stretch)
+                DropShadow: =DropShadow.Regular
+                Fill: =ColorFade(gblAppColors.BackgroundDefault, 1%)
+                FillPortions: =0
+                Height: =60
+                LayoutAlignItems: =LayoutAlignItems.Center
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =10
+                LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                LayoutMinHeight: =If(App.ActiveScreen.Size <= 2, 60, Parent.Height - 10)
+                LayoutMinWidth: =Parent.Width
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =10
+                PaddingLeft: =5
+                PaddingRight: =5
+                RadiusBottomLeft: =4
+                RadiusBottomRight: =4
+                RadiusTopLeft: =4
+                RadiusTopRight: =4
+                Width: =If(App.ActiveScreen.Size <= 2, Parent.Width, 120)
+                ZIndex: =1
+
+                "conHomeTabList As 'Tab list'.pcfdataset":
+                    AlignInContainer: =AlignInContainer.Stretch
+                    Alignment: =If( App.ActiveScreen.Size <= 2, "Horizontal", "Vertical")
+                    DefaultSelectedItems: =If(App.ActiveScreen.Size <= 2,LookUp(colMobileMenu,ID=varMenuID), LookUp(colMenu,ID=varMenuID))
+                    DisplayMode: =DisplayMode.Edit
+                    Height: =If( App.ActiveScreen.Size <= 2, 60, Parent.Height - conRefresh_1.Height - 20)
+                    Items: |-
+                        =If(App.ActiveScreen.Size <= 2,
+                        colMobileMenu, colMenu)
+                    LayoutMinHeight: =55
+                    LayoutMinWidth: =Parent.Width
+                    OnSelect: |-
+                        =If(
+                            App.ActiveScreen.Size >= 2,
+                        // Normal Device //
+                            Switch(
+                                Self.Selected.ID,
+                                //Home
+                                0,
+                                Navigate(Self.Selected.Screen) && Set(
+                                    varSearch,
+                                    false
+                                ) && Set(
+                                    varMenuID,
+                                    Self.Selected.ID
+                                ),
+                                // Search
+                                1,
+                                Navigate(Self.Selected.Screen) && Set(
+                                    varSearch,
+                                    true
+                                ) && Set(
+                                    varMenuID,
+                                    Self.Selected.ID
+                                ),
+                                // Edit
+                                2,
+                                Navigate(Self.Selected.Screen) && Set(
+                                    varSearch,
+                                    false
+                                ) && Set(
+                                    varMenuID,
+                                    Self.Selected.ID
+                                ) && Set(
+                                    varFormMode,
+                                    FormMode.Edit
+                                ) && Set(
+                                    varTab,
+                                    1
+                                ),
+                                // New
+                                3,
+                                Navigate(Self.Selected.Screen) && Set(
+                                    varMenuID,
+                                    Self.Selected.ID
+                                ) && Set(
+                                    varFormMode,
+                                    FormMode.New
+                                ) && Set(
+                                    varTab,
+                                    1
+                                ) && Set(varAsset, Blank()),
+                                // Stock
+                                4,
+                                Navigate(Self.Selected.Screen) && Set(
+                                    varMenuID,
+                                    Self.Selected.ID
+                                ) && Set(
+                                    varTab,
+                                    1
+                                ),
+                                // Stock
+                                5,
+                                Navigate(StockScreen) && Set(
+                                    varTab,
+                                    2
+                                ),
+                                //Else
+                                Navigate(Home)
+                            ),
+                        // Mobile Device //
+                            Switch(
+                                Self.Selected.ID,
+                                //Home
+                                0,
+                                Navigate(Self.Selected.Screen) && Set(
+                                    varSearch,
+                                    false
+                                ) && Set(
+                                    varMain,
+                                    true
+                                ) && Set(
+                                    varMenuID,
+                                    Self.Selected.ID
+                                ),
+                                //Assets
+                                7,
+                                Navigate(Self.Selected.Screen) && Set(
+                                    varSearch,
+                                    false
+                                ) && Set(
+                                    varMain,
+                                    true
+                                ) && Set(
+                                    varMenuID,
+                                    Self.Selected.ID
+                                ),
+                                // Search
+                                1,
+                                Navigate(Self.Selected.Screen) && Set(
+                                    varSearch,
+                                    true
+                                ) && Set(
+                                    varMain,
+                                    false
+                                ) && Set(
+                                    varMenuID,
+                                    Self.Selected.ID
+                                ),
+                                // Edit
+                                2,
+                                Navigate(Self.Selected.Screen) && Set(
+                                    varSearch,
+                                    false
+                                ) && Set(
+                                    varMenuID,
+                                    Self.Selected.ID
+                                ) && Set(
+                                    varFormMode,
+                                    FormMode.Edit
+                                ) && Set(
+                                    varTab,
+                                    1
+                                ),
+                                // Stock
+                                4,
+                                Navigate(Self.Selected.Screen) && Set(
+                                    varMenuID,
+                                    Self.Selected.ID
+                                )
+                            )
+                        )
+                    Width: =Parent.Width - 10
+                    X: =0
+                    Y: =0
+                    ZIndex: =1
+
+                    Name1_2 As pcfDataField.textualColumn:
+                        FieldDisplayName: ="Name"
+                        FieldName: ="Name"
+                        FieldType: ="s"
+                        FieldVariantName: ="textualColumn"
+                        Order: =1
+                        ZIndex: =5
+
+                conRefresh_1 As groupContainer.manualLayoutContainer:
+                    AlignInContainer: =AlignInContainer.Center
+                    FillPortions: =0
+                    Height: =60
+                    LayoutMinHeight: =60
+                    LayoutMinWidth: =Parent.Width
+                    Visible: =If(App.ActiveScreen.Size <= 2, false, true)
+                    Width: =Parent.Width - 10
+                    ZIndex: =3
+
+                    btnRefresh_1 As button:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =RGBA(21, 68, 18, 1)
+                        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =Parent.Height * 0.6
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(RGBA(73, 130, 5, 1), -10%)
+                        OnSelect: |-
+                            =Set(
+                                varSpinner,
+                                true
+                            );
+                            Set(
+                                varSearch,
+                                false
+                            );
+                            Set(
+                                varMain,
+                                true
+                            );
+                            Set(
+                                varTab,
+                                1
+                            );
+                            ClearCollect(
+                                colAssets,
+                                'Hardware Asset List'
+                            );
+                            ClearCollect(
+                                colEmployee,
+                                'Asset Management List'
+                            );
+                            //ClearCollect(colAssets,
+                            // AddColumns(colAssets,"M3652",LookUp(colEmployee, ,'GC Employee - Microsoft')));
+                            //Collect(colAssets,
+                            //  AddColumns(colHardware,"Team",LookUp(colAssets,'Assigned'.Value=colEmployee[@Title],'GC Employee Non Microsoft')));
+                            
+                            //Add all columns from another table code
+                            
+                            //AddColumns(
+                            //    colAssets,
+                              //  "UserPhoto",
+                                //If(
+                                    // Check if the user has a email and user photo
+                                  //  !IsBlank(M365.Email) And Office365Users.UserPhotoMetadata(M365.Email).HasPhoto,
+                                    //Get User Photo
+                                  //  Office365Users.UserPhotoV2(M365.Email)
+                               // )
+                            //);
+                            ClearCollect(
+                                colAssets,
+                                DropColumns(
+                                    colAssets,
+                                    "Author",
+                                    "Editor",
+                                    "OData__ColorTag",
+                                    "{Attachments}",
+                                    "ComplianceAssetId",
+                                    "{ModerationComment}",
+                                    "{FilenameWithExtension}",
+                                    "{ModerationStatus}",
+                                    "{TriggerWindowEndToken}",
+                                    "{TriggerWindowStartToken}"
+                                )
+                            );
+                            ClearCollect(
+                                colPhone,
+                                '02 Phone Numbers'
+                            );
+                            ClearCollect(
+                                colITSM,
+                                'Asset to Jira'
+                            );
+                            ClearCollect(
+                                colStock,
+                                'Billericay Stock'
+                            );
+                            Set(
+                                varSpinner,
+                                false
+                            )
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        PressedBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -50%)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        Size: =12
+                        Text: ="🔃 Refresh"
+                        Width: =Parent.Width * 0.9
+                        X: =(Parent.Width - Self.Width) / 2
+                        Y: =(Parent.Height - Self.Height) / 2
+                        ZIndex: =1
+
+            conMainBody As groupContainer.verticalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                DropShadow: =DropShadow.Semibold
+                Fill: =gblAppColors.BackgroundDefault
+                FillPortions: =7
+                Height: =Parent.Height
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMinHeight: =Parent.Height
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                RadiusBottomLeft: =4
+                RadiusBottomRight: =4
+                RadiusTopLeft: =4
+                RadiusTopRight: =4
+                Visible: =varMain
+                ZIndex: =2
+
+                conAppliedFilter As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderStyle: =BorderStyle.None
+                    DropShadow: =DropShadow.Light
+                    FillPortions: =0
+                    Height: =40
+                    LayoutAlignItems: =LayoutAlignItems.Center
+                    LayoutGap: =5
+                    LayoutMinHeight: =40
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    LayoutOverflowX: =LayoutOverflow.Scroll
+                    RadiusBottomLeft: =4
+                    RadiusBottomRight: =4
+                    RadiusTopLeft: =4
+                    RadiusTopRight: =4
+                    Visible: =!IsBlank(inpSearchEmployee.Text) || !IsBlank(inpSearchType.Selected.Value) || !IsBlank(inpSearchICT.Text) || !IsBlank(inpSearchITSM.Text) || !IsBlank(inpSearchStatus.Selected.Value) || !IsBlank(inpSearchModel.Selected.Value) || !IsBlank(inpSearchMake.Selected.Value)
+                    Width: =Parent.Width
+                    ZIndex: =1
+
+                    Label8 As label:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =2
+                        Color: =RGBA(51, 51, 51, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        FocusedBorderThickness: =4
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =13
+                        Text: =If(App.ActiveScreen.Size <= 2, "Filters ➡️", "Applied Filters ➡️")
+                        ZIndex: =1
+
+                    btnFilterICT As button:
+                        Align: =Align.Left
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =0
+                        Color: =RGBA(17, 61, 15, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =RGBA(166, 215, 153, 1)
+                        FillPortions: =1
+                        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =30
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(RGBA(73, 130, 5, 1), -10%)
+                        Italic: =true
+                        LayoutMinWidth: =50
+                        OnSelect: =Reset(inpSearchICT)
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        PressedBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -50%)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        Size: =12
+                        Text: |-
+                            ="❌ Asset No: " & Upper(inpSearchICT.Text)
+                        Visible: =!IsBlank(inpSearchICT.Text)
+                        Width: =150
+                        ZIndex: =2
+
+                    btnFilterEmployee As button:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        Color: =RGBA(17, 61, 15, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =RGBA(166, 215, 153, 1)
+                        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =30
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(RGBA(73, 130, 5, 1), -10%)
+                        OnSelect: =Reset(inpSearchEmployee)
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        PressedBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -50%)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        RadiusBottomLeft: =15
+                        RadiusBottomRight: =15
+                        RadiusTopLeft: =15
+                        RadiusTopRight: =15
+                        Size: =12
+                        Text: |-
+                            ="❌ Employee: " & inpSearchEmployee.Text
+                        Visible: =!IsBlank(inpSearchEmployee.Text)
+                        Width: =150
+                        ZIndex: =3
+
+                    btnFilterITSM As button:
+                        Align: =Align.Left
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        Color: =RGBA(17, 61, 15, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =RGBA(166, 215, 153, 1)
+                        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =30
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(RGBA(73, 130, 5, 1), -10%)
+                        OnSelect: =Reset(inpSearchITSM)
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        PressedBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -50%)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        Size: =12
+                        Text: |-
+                            =" ❌ ITSM: " & inpSearchITSM.Text
+                        Visible: =!IsBlank(inpSearchITSM.Text)
+                        Width: =150
+                        ZIndex: =4
+
+                    btnFilterStatus As button:
+                        Align: =Align.Left
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        Color: =RGBA(17, 61, 15, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =RGBA(166, 215, 153, 1)
+                        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =30
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(RGBA(73, 130, 5, 1), -10%)
+                        Italic: =true
+                        OnSelect: =Reset(inpSearchStatus)
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        PressedBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -50%)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        Size: =12
+                        Text: |-
+                            =" ❌ Status: " & inpSearchStatus.Selected.Value
+                        Visible: =!IsBlank(inpSearchStatus.Selected.Value)
+                        Width: =150
+                        ZIndex: =5
+
+                    btnFilterType As button:
+                        Align: =Align.Left
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        Color: =RGBA(17, 61, 15, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =RGBA(166, 215, 153, 1)
+                        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =30
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(RGBA(73, 130, 5, 1), -10%)
+                        Italic: =true
+                        OnSelect: =Reset(inpSearchType)
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        PressedBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -50%)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        Size: =12
+                        Text: |-
+                            =" ❌ Type: " & inpSearchType.Selected.Value
+                        Visible: =!IsBlank(inpSearchType.Selected.Value)
+                        Width: =150
+                        ZIndex: =6
+
+                    btnFilterMake As button:
+                        Align: =Align.Left
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        Color: =RGBA(17, 61, 15, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =RGBA(166, 215, 153, 1)
+                        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =30
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(RGBA(73, 130, 5, 1), -10%)
+                        OnSelect: =Reset(inpSearchMake)
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        PressedBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -50%)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        Size: =12
+                        Text: |-
+                            =" ❌ Make: " & inpSearchMake.Selected.Value
+                        Visible: =!IsBlank(inpSearchMake.Selected.Value)
+                        Width: =150
+                        ZIndex: =7
+
+                    btnFilterModel As button:
+                        Align: =Align.Left
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =0
+                        Color: =RGBA(17, 61, 15, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =RGBA(166, 215, 153, 1)
+                        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =30
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(RGBA(73, 130, 5, 1), -10%)
+                        LayoutMinWidth: =100
+                        OnSelect: =Reset(inpSearchModel)
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        PressedBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -50%)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        Size: =10.5
+                        Text: |-
+                            =" ❌ Model: " & inpSearchModel.Selected.Value
+                        Visible: =!IsBlank(inpSearchModel.Selected.Value)
+                        Width: =200
+                        ZIndex: =8
+
+                conMainBodyHeader As groupContainer.manualLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    DropShadow: =DropShadow.Light
+                    FillPortions: =0
+                    Height: =60
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    RadiusBottomLeft: =4
+                    RadiusBottomRight: =4
+                    RadiusTopLeft: =4
+                    RadiusTopRight: =4
+                    Width: =Parent.Width
+                    ZIndex: =2
+
+                    btnMainBodyHeader As button:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        Color: =gblAppColors.NeutralMobileWhite
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =gblAppColors.TeamsDefaultTint40
+                        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =Parent.Height - 2*Self.BorderThickness
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(RGBA(73, 130, 5, 1), -10%)
+                        PressedBorderColor: =gblAppColors.TeamsDefaultTint30
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        Size: =15
+                        Text: =
+                        Width: =Parent.Width - 2*Self.BorderThickness
+                        X: =(Parent.Width - Self.Width) /2
+                        Y: =(Parent.Height - Self.Height) /2
+                        ZIndex: =1
+
+                    conHeaderBody As groupContainer.horizontalAutoLayoutContainer:
+                        DropShadow: =DropShadow.Light
+                        Height: =Parent.Height
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutMode: =LayoutMode.Auto
+                        RadiusBottomLeft: =4
+                        RadiusBottomRight: =4
+                        RadiusTopLeft: =4
+                        RadiusTopRight: =4
+                        Width: =Parent.Width
+                        ZIndex: =2
+
+                        lblITSMTitle As label:
+                            Align: =Align.Center
+                            BorderColor: =RGBA(0, 0, 0, 0)
+                            BorderStyle: =BorderStyle.None
+                            BorderThickness: =2
+                            Color: =gblAppColors.TeamsDefaultTint10
+                            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                            DisabledColor: =gblAppColors.NeutralMobileGray700
+                            FillPortions: =conGalAsset.FillPortions
+                            FocusedBorderThickness: =4
+                            Font: =Font.'Segoe UI'
+                            FontWeight: =FontWeight.Semibold
+                            LayoutMinWidth: =0
+                            Text: ="Asset No"
+                            Visible: =conGalAsset.Visible
+                            Width: =conGalAsset.Width
+                            ZIndex: =1
+
+                        lblEmployeeTitle As label:
+                            Align: =Align.Center
+                            BorderColor: =RGBA(0, 0, 0, 0)
+                            BorderStyle: =BorderStyle.None
+                            BorderThickness: =2
+                            Color: =RGBA(51, 51, 51, 1)
+                            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FillPortions: =conGalEmployee.FillPortions
+                            FocusedBorderThickness: =4
+                            Font: =Font.'Segoe UI'
+                            FontWeight: =FontWeight.Semibold
+                            LayoutMinWidth: =0
+                            Size: =13
+                            Text: ="Employee"
+                            Visible: =conGalEmployee.Visible
+                            Width: =conGalEmployee.Width
+                            ZIndex: =2
+
+                        lblTypeTitle As label:
+                            Align: =Align.Center
+                            BorderColor: =RGBA(0, 0, 0, 0)
+                            BorderStyle: =BorderStyle.None
+                            BorderThickness: =2
+                            Color: =gblAppColors.TeamsDefaultTint10
+                            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                            DisabledColor: =gblAppColors.NeutralMobileGray700
+                            FillPortions: =conGalType.FillPortions
+                            FocusedBorderThickness: =4
+                            Font: =Font.'Segoe UI'
+                            FontWeight: =FontWeight.Semibold
+                            LayoutMinWidth: =0
+                            Text: ="Type"
+                            Visible: =conGalType.Visible
+                            Width: =conGalEmployee.Width
+                            ZIndex: =3
+
+                        lblStatusTitle As label:
+                            Align: =Align.Center
+                            BorderColor: =RGBA(0, 0, 0, 0)
+                            BorderStyle: =BorderStyle.None
+                            BorderThickness: =2
+                            Color: =gblAppColors.TeamsDefaultTint10
+                            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                            DisabledColor: =gblAppColors.NeutralMobileGray700
+                            FillPortions: =conGalStatus.FillPortions
+                            FocusedBorderThickness: =4
+                            Font: =Font.'Segoe UI'
+                            FontWeight: =FontWeight.Semibold
+                            LayoutMinWidth: =0
+                            Text: ="Status"
+                            Visible: =conGalStatus.Visible
+                            Width: =conGalStatus.Width
+                            ZIndex: =4
+
+                        lblMakeTitle As label:
+                            Align: =Align.Center
+                            BorderColor: =RGBA(0, 0, 0, 0)
+                            BorderStyle: =BorderStyle.None
+                            BorderThickness: =2
+                            Color: =gblAppColors.TeamsDefaultTint10
+                            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                            DisabledColor: =gblAppColors.NeutralMobileGray700
+                            FillPortions: =conGalMake.FillPortions
+                            FocusedBorderThickness: =4
+                            Font: =Font.'Segoe UI'
+                            FontWeight: =FontWeight.Semibold
+                            LayoutMinWidth: =120
+                            Text: ="Make & Model"
+                            Visible: =conGalMake.Visible
+                            Width: =conGalMake.Width
+                            ZIndex: =5
+
+                        lblLinksTitle As label:
+                            Align: =Align.Center
+                            BorderColor: =RGBA(0, 0, 0, 0)
+                            BorderStyle: =BorderStyle.None
+                            BorderThickness: =2
+                            Color: =gblAppColors.TeamsDefaultTint10
+                            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                            DisabledColor: =gblAppColors.NeutralMobileGray700
+                            FillPortions: =conGalLinks.FillPortions
+                            FocusedBorderThickness: =4
+                            Font: =Font.'Segoe UI'
+                            FontWeight: =FontWeight.Semibold
+                            LayoutMinWidth: =0
+                            Text: ="Links & Actions"
+                            Visible: =conGalAssets.Visible
+                            Width: =conGalLinks.Width
+                            ZIndex: =6
+
+                conMainBodyMain As groupContainer.manualLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    DropShadow: =DropShadow.Light
+                    Height: =Parent.Height
+                    LayoutMinHeight: =Parent.Height - conAppliedFilter.Height - conMainBodyHeader.Height
+                    LayoutMinWidth: =250
+                    RadiusBottomLeft: =4
+                    RadiusBottomRight: =4
+                    RadiusTopLeft: =4
+                    RadiusTopRight: =4
+                    Visible: =varMain
+                    Width: =Parent.Width
+                    ZIndex: =3
+
+                    btnBackgroundBody As button:
+                        AutoDisableOnSelect: =false
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        Color: =gblAppColors.TeamsDefaultTint30
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =
+                        DisabledFill: =RGBA(0, 0, 0, 0)
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.GhostWhite
+                        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =Parent.Height - 2*Self.BorderThickness
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =Self.Fill
+                        HoverFill: =
+                        PressedBorderColor: =
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Size: =15
+                        Text: =
+                        Width: =Parent.Width - 2*Self.BorderThickness
+                        X: =(Parent.Width - Self.Width) /2
+                        Y: =(Parent.Height - Self.Height) /2
+                        ZIndex: =1
+
+                    "galAssets As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+                        BorderColor: =RGBA(166, 166, 166, 1)
+                        DelayItemLoading: =true
+                        Height: =Parent.Height - 10
+                        Items: |-
+                            =Sort(
+                            Filter
+                            (
+                                colAssets,
+                                (inpSearchEmployee.Text in 'Assigned To'.Value || IsBlank(inpSearchEmployee.Text)),
+                                (inpSearchICT.Text in Title || IsBlank(inpSearchICT.Text)),
+                                (inpSearchITSM.Text in Tickets.Value || IsBlank(inpSearchITSM.Text)),
+                                inpSearchMake.Selected.Value=Blank() Or Make.Value=inpSearchMake.Selected.Value,
+                                inpSearchStatus.Selected.Value=Blank() Or Status.Value=inpSearchStatus.Selected.Value,
+                                inpSearchType.Selected.Value=Blank() Or 'Device Type'.Value=inpSearchType.Selected.Value,
+                                inpSearchModel.Selected.Value=Blank() Or Model.Value=inpSearchModel.Selected.Value
+                            ),Modified,SortOrder.Descending)
+                        Layout: =Layout.Vertical
+                        LoadingSpinner: =LoadingSpinner.Data
+                        OnSelect: |
+                            =Set(varSpinner, true);
+                            Set(varAsset,LookUp('Hardware Asset List',ID=ThisItem.ID));
+                            Set(varEmployee,LookUp('Asset Management List',ID=ThisItem.'Assigned To'.Id));
+                            Set(varPhone,LookUp('02 Phone Numbers',ID=ThisItem.PhoneNumber.Id));
+                            Set(varTab, 1);
+                            ClearCollect(colITSM, LookUp('Asset to Jira',Asset.Value=ThisItem.Title));
+                            ClearCollect(varAssetRecord, {Phone:varPhone, Employee:varEmployee, Asset:varAsset});
+                            Set(varRecordType, "View");
+                            
+                            Navigate(EditScreen, ScreenTransition.Fade) && Set(varMenuID, 2);
+                            
+                            Set(varSpinner, false);
+                        TemplatePadding: =10
+                        TemplateSize: =If(App.ActiveScreen.Size <= 2, 100, 60)
+                        Transition: =Transition.Pop
+                        Width: =Parent.Width
+                        ZIndex: =2
+
+                        conGalAssets As groupContainer.horizontalAutoLayoutContainer:
+                            DropShadow: =DropShadow.Regular
+                            Height: =Parent.TemplateHeight
+                            LayoutAlignItems: =LayoutAlignItems.Center
+                            LayoutGap: =5
+                            LayoutJustifyContent: =LayoutJustifyContent.Center
+                            LayoutMode: =LayoutMode.Auto
+                            RadiusBottomLeft: =4
+                            RadiusBottomRight: =4
+                            RadiusTopLeft: =4
+                            RadiusTopRight: =4
+                            Width: =Parent.TemplateWidth
+                            ZIndex: =1
+
+                            conGalAsset As groupContainer.manualLayoutContainer:
+                                FillPortions: =If(App.ActiveScreen.Size <= 2, 0.6, 0.6)
+                                Height: =60
+                                LayoutMinHeight: =Parent.Height
+                                LayoutMinWidth: =If(App.ActiveScreen.Size <= 2, 100, 125)
+                                RadiusBottomLeft: =4
+                                RadiusBottomRight: =4
+                                RadiusTopLeft: =4
+                                RadiusTopRight: =4
+                                Width: =If(App.ActiveScreen.Size <= 2, 100, 200)
+                                ZIndex: =1
+
+                                txtAsset As label:
+                                    BorderColor: =RGBA(0, 0, 0, 0)
+                                    BorderStyle: =BorderStyle.None
+                                    Color: =RGBA(51, 51, 51, 1)
+                                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                    DisabledColor: =RGBA(166, 166, 166, 1)
+                                    FocusedBorderThickness: =4
+                                    Font: =Font.'Segoe UI'
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =conGalAssets.Height
+                                    PaddingLeft: =20
+                                    Size: =13
+                                    Text: =ThisItem.Title
+                                    Tooltip: ="""Asset No."""
+                                    Width: =Parent.Width
+                                    ZIndex: =1
+
+                            conGalEmployee As groupContainer.manualLayoutContainer:
+                                AlignInContainer: =AlignInContainer.SetByContainer
+                                FillPortions: =If(App.ActiveScreen.Size <= 2, 1.2, 1)
+                                Height: =Parent.Height
+                                LayoutMinHeight: =galAssets.TemplateHeight - 10
+                                LayoutMinWidth: =100
+                                RadiusBottomLeft: =4
+                                RadiusBottomRight: =4
+                                RadiusTopLeft: =4
+                                RadiusTopRight: =4
+                                Width: =If(App.ActiveScreen.Size <= 2, 50, 100)
+                                ZIndex: =2
+
+                                txtAsset_1 As label:
+                                    BorderColor: =RGBA(0, 0, 0, 0)
+                                    BorderStyle: =BorderStyle.None
+                                    BorderThickness: =2
+                                    Color: =RGBA(51, 51, 51, 1)
+                                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                    DisabledColor: =RGBA(166, 166, 166, 1)
+                                    FocusedBorderThickness: =4
+                                    Font: =Font.'Segoe UI'
+                                    FontWeight: =FontWeight.Lighter
+                                    Height: =Parent.Height
+                                    LineHeight: =1
+                                    PaddingBottom: =10
+                                    PaddingLeft: =TextInput1.Width + TextInput1.X + 10
+                                    PaddingRight: =10
+                                    PaddingTop: =10
+                                    Size: =12
+                                    Text: =LookUp('Asset Management List', ID=ThisItem.'Assigned To'.Id,Title)
+                                    Width: =Parent.Width
+                                    ZIndex: =1
+
+                                TextInput1 As text:
+                                    Align: =Align.Center
+                                    BorderColor: =RGBA(17, 61, 15, 1)
+                                    BorderThickness: =2
+                                    Color: =RGBA(255, 255, 255, 1)
+                                    Default: |
+                                        =If(!IsBlank(
+                                        ThisItem.'Assigned To'.Value), 
+                                        Concat(Split(ThisItem.'Assigned To'.Value, " "), Left(Value, 1)), 
+                                        Concat(Split(ThisItem.'Assigned To'.Value, " "), Left(Value, 1)))
+                                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                    DisabledColor: =RGBA(166, 166, 166, 1)
+                                    DisabledFill: =RGBA(244, 244, 244, 1)
+                                    DisplayMode: =DisplayMode.View
+                                    Fill: =RGBA(RandBetween(1,120), RandBetween(1,120), RandBetween(1,255), 1) 
+                                    FocusedBorderThickness: =4
+                                    Font: =Font.'Segoe UI'
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =30
+                                    HoverBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                                    HoverColor: =RGBA(51, 51, 51, 1)
+                                    HoverFill: =RGBA(255, 255, 255, 1)
+                                    LineHeight: =1
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    PressedBorderColor: =RGBA(73, 130, 5, 1)
+                                    PressedColor: =RGBA(51, 51, 51, 1)
+                                    PressedFill: =RGBA(255, 255, 255, 1)
+                                    RadiusBottomLeft: =30
+                                    RadiusBottomRight: =30
+                                    RadiusTopLeft: =30
+                                    RadiusTopRight: =30
+                                    Size: =9
+                                    Visible: |+
+                                        =IsBlank(ThisItem.M365.Email) //And !Office365Users.UserPhotoMetadata(ThisItem.M365.Email).HasPhoto 
+                                        
+                                    Width: =30
+                                    X: =15
+                                    Y: =(Parent.Height - Self.Height) / 2
+                                    ZIndex: =2
+
+                            conGalType As groupContainer.manualLayoutContainer:
+                                AlignInContainer: =AlignInContainer.SetByContainer
+                                FillPortions: =If(App.ActiveScreen.Size <= 2, TextInput1.Width + 10, 0.8)
+                                Height: =Parent.Height
+                                LayoutMinHeight: =Parent.Height
+                                LayoutMinWidth: =If(App.ActiveScreen.Size <= 2, 30, 100)
+                                RadiusBottomLeft: =4
+                                RadiusBottomRight: =4
+                                RadiusTopLeft: =4
+                                RadiusTopRight: =4
+                                Width: =If(App.ActiveScreen.Size <= 2, 75, 100)
+                                ZIndex: =3
+
+                                txtAsset_2 As label:
+                                    Align: =Align.Center
+                                    BorderColor: =RGBA(0, 0, 0, 0)
+                                    BorderStyle: =BorderStyle.None
+                                    BorderThickness: =2
+                                    Color: =RGBA(51, 51, 51, 1)
+                                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                    DisabledColor: =RGBA(166, 166, 166, 1)
+                                    FocusedBorderThickness: =4
+                                    Font: =Font.'Segoe UI'
+                                    Height: =Parent.Height
+                                    Size: =13
+                                    Text: =ThisItem.'Device Type'.Value
+                                    Visible: =If(App.ActiveScreen.Size <= 2, false, true)
+                                    Width: =Parent.Width - imgGalDeviceType.Width
+                                    X: =imgGalDeviceType.Width
+                                    ZIndex: =1
+
+                                imgGalDeviceType As image:
+                                    BorderColor: =RGBA(0, 0, 0, 0)
+                                    BorderStyle: =BorderStyle.None
+                                    BorderThickness: =2
+                                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                    DisabledFill: =RGBA(0, 0, 0, 0)
+                                    FocusedBorderThickness: =4
+                                    Height: =30
+                                    HoverBorderColor: =RGBA(0, 0, 0, 0)
+                                    HoverFill: =RGBA(0, 0, 0, 0)
+                                    Image: |-
+                                        =Switch(
+                                            ThisItem.'Device Type'.Value,
+                                            "Phone",
+                                            'phone-vibrate',
+                                            "Tablet",
+                                            'tablet-landscape',
+                                            "Arb Tablet",
+                                            'tablet-landscape',
+                                            laptop
+                                        )
+                                    PaddingBottom: =5
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                    PaddingTop: =5
+                                    PressedBorderColor: =RGBA(0, 0, 0, 0)
+                                    PressedFill: =RGBA(0, 0, 0, 0)
+                                    RadiusBottomLeft: =40
+                                    RadiusBottomRight: =40
+                                    RadiusTopLeft: =40
+                                    RadiusTopRight: =40
+                                    Width: =30
+                                    X: =10
+                                    Y: =(Parent.Height - Self.Height) / 2
+                                    ZIndex: =2
+
+                            conGalStatus As groupContainer.manualLayoutContainer:
+                                AlignInContainer: =AlignInContainer.SetByContainer
+                                FillPortions: =If(App.ActiveScreen.Size <= 2, 1, 1)
+                                Height: =Parent.Height
+                                LayoutMinHeight: =galAssets.TemplateHeight - 10
+                                LayoutMinWidth: =100
+                                RadiusBottomLeft: =4
+                                RadiusBottomRight: =4
+                                RadiusTopLeft: =4
+                                RadiusTopRight: =4
+                                ZIndex: =5
+
+                                Button6 As button:
+                                    BorderColor: =RGBA(0, 0, 0, 0)
+                                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                    DisabledColor: =RGBA(166, 166, 166, 1)
+                                    DisabledFill: =RGBA(244, 244, 244, 1)
+                                    Fill: |-
+                                        =
+                                        Switch( 
+                                            ThisItem.Status.Value,
+                                            "Assigned",
+                                            gblAppColors.Status1,
+                                            "In Stock",
+                                            gblAppColors.Status2,
+                                            "Unknown",
+                                            gblAppColors.Status3,
+                                            "Lost/Stolen",
+                                            gblAppColors.Status4,
+                                            "Awaiting Repair",
+                                            gblAppColors.Status5,
+                                            "Awaiting Recycling",
+                                            gblAppColors.Status5
+                                            )
+                                    FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+                                    Font: =Font.'Segoe UI'
+                                    FontWeight: =FontWeight.Semibold
+                                    HoverBorderColor: =RGBA(0, 0, 0, 0)
+                                    HoverColor: =RGBA(255, 255, 255, 1)
+                                    HoverFill: |-
+                                        =
+                                        Switch( 
+                                            ThisItem.Status.Value,
+                                            "Assigned",
+                                            ColorFade(gblAppColors.Status1, -30%),
+                                            "In Stock",
+                                            ColorFade(gblAppColors.Status2, -30%),
+                                            "Unknown",
+                                            ColorFade(gblAppColors.Status3, -30%),
+                                            "Lost/Stolen",
+                                            ColorFade(gblAppColors.Status4, -30%),
+                                            "Awaiting Repair",
+                                            ColorFade(gblAppColors.Status5, -30%),
+                                            "Awaiting Recycling",
+                                            ColorFade(gblAppColors.Status5, -30%)
+                                            )
+                                    PaddingBottom: =10
+                                    PaddingLeft: =Circle1.Width + 5
+                                    PaddingTop: =10
+                                    PressedBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -50%)
+                                    PressedColor: =RGBA(255, 255, 255, 1)
+                                    PressedFill: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                                    RadiusBottomLeft: =20
+                                    RadiusBottomRight: =20
+                                    RadiusTopLeft: =20
+                                    RadiusTopRight: =20
+                                    Size: =12
+                                    Text: =If(App.ActiveScreen.Size <= 2, "", ThisItem.Status.Value)
+                                    Tooltip: =ThisItem.Status.Value
+                                    Width: =If(App.ActiveScreen.Size <= 2, Parent.Width * 0.3, Parent.Width * 0.9)
+                                    X: =(Parent.Width - Self.Width) / 2
+                                    Y: =(Parent.Height - Self.Height) / 2
+                                    ZIndex: =1
+
+                                Circle1 As circle:
+                                    BorderColor: =RGBA(166, 166, 166, 1)
+                                    BorderStyle: =BorderStyle.None
+                                    BorderThickness: =2
+                                    DisabledFill: =RGBA(73, 130, 5, 1)
+                                    Fill: |-
+                                        =
+                                        Switch( 
+                                            ThisItem.Status.Value,
+                                            "Assigned",
+                                            ColorFade(gblAppColors.Status1, -30%),
+                                            "In Stock",
+                                            ColorFade(gblAppColors.Status2, -30%),
+                                            "Unknown",
+                                            ColorFade(gblAppColors.Status3, -30%),
+                                            "Lost/Stolen",
+                                            ColorFade(gblAppColors.Status4, -30%),
+                                            "Awaiting Repair",
+                                            ColorFade(gblAppColors.Status5, -30%),
+                                            "Awaiting Recycling",
+                                            ColorFade(gblAppColors.Status5, -30%)
+                                            )
+                                    Height: =20
+                                    HoverFill: =Button6.Fill
+                                    PressedFill: =RGBA(73, 130, 5, 1)
+                                    Width: =20
+                                    X: =Button6.X + 5
+                                    Y: =(Parent.Height - Self.Height) / 2
+                                    ZIndex: =2
+
+                            conGalMake As groupContainer.manualLayoutContainer:
+                                AlignInContainer: =AlignInContainer.SetByContainer
+                                Height: =Parent.Height
+                                LayoutMinHeight: =Parent.Height
+                                LayoutMinWidth: =100
+                                RadiusBottomLeft: =4
+                                RadiusBottomRight: =4
+                                RadiusTopLeft: =4
+                                RadiusTopRight: =4
+                                Visible: =If(App.ActiveScreen.Size <= 2, false, true)
+                                ZIndex: =6
+
+                                txtAsset_3 As label:
+                                    Align: =Align.Center
+                                    BorderColor: =RGBA(0, 0, 0, 0)
+                                    BorderStyle: =BorderStyle.None
+                                    BorderThickness: =2
+                                    Color: =RGBA(51, 51, 51, 1)
+                                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                    DisabledColor: =RGBA(166, 166, 166, 1)
+                                    FocusedBorderThickness: =4
+                                    Font: =Font.'Segoe UI'
+                                    Height: =Parent.Height
+                                    LineHeight: =1
+                                    Size: =13
+                                    Text: =ThisItem.Make.Value & " - " & ThisItem.Model.Value
+                                    Width: =Parent.Width
+                                    ZIndex: =1
+
+                            conGalLinks As groupContainer.manualLayoutContainer:
+                                AlignInContainer: =AlignInContainer.SetByContainer
+                                FillPortions: =If(App.ActiveScreen.Size <= 2, 1, 1.2)
+                                Height: =Parent.Height
+                                LayoutMinHeight: =galAssets.TemplateHeight - 10
+                                LayoutMinWidth: =100
+                                RadiusBottomLeft: =4
+                                RadiusBottomRight: =4
+                                RadiusTopLeft: =4
+                                RadiusTopRight: =4
+                                Visible: =If(App.ActiveScreen.Size <= 2, false, true)
+                                ZIndex: =7
+
+                                Container5 As groupContainer.horizontalAutoLayoutContainer:
+                                    DropShadow: =DropShadow.Light
+                                    Height: =60
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutGap: =5
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMode: =LayoutMode.Auto
+                                    RadiusBottomLeft: =4
+                                    RadiusBottomRight: =4
+                                    RadiusTopLeft: =4
+                                    RadiusTopRight: =4
+                                    Width: =Parent.Width
+                                    ZIndex: =7
+
+                                    imgLinkEdit As image:
+                                        BorderColor: =RGBA(0, 0, 0, 0)
+                                        BorderStyle: =BorderStyle.None
+                                        BorderThickness: =2
+                                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                        DisabledFill: =RGBA(0, 0, 0, 0)
+                                        FocusedBorderThickness: =4
+                                        Height: =40
+                                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                                        HoverFill: =RGBA(0, 0, 0, 0)
+                                        Image: =pencil
+                                        OnSelect: |-
+                                            =
+                                            Select(galAssets)
+                                        PaddingBottom: =5
+                                        PaddingLeft: =5
+                                        PaddingRight: =5
+                                        PaddingTop: =5
+                                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                                        PressedFill: =RGBA(0, 0, 0, 0)
+                                        RadiusBottomLeft: =30
+                                        RadiusBottomRight: =30
+                                        RadiusTopLeft: =30
+                                        RadiusTopRight: =30
+                                        Tooltip: ="Edit"
+                                        Width: =40
+                                        X: =15
+                                        Y: =10
+                                        ZIndex: =1
+
+                                    imgLinkJira As image:
+                                        BorderColor: =RGBA(0, 0, 0, 0)
+                                        BorderStyle: =BorderStyle.None
+                                        BorderThickness: =2
+                                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                        DisabledFill: =RGBA(0, 0, 0, 0)
+                                        FocusedBorderThickness: =4
+                                        Height: =40
+                                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                                        HoverFill: =RGBA(0, 0, 0, 0)
+                                        Image: ='mark-gradient-blue-jira'
+                                        OnSelect: =Set(varITSM, true); ClearCollect(colITSM, LookUp('Asset to Jira',Asset.Value=ThisItem.Title));
+                                        PaddingBottom: =5
+                                        PaddingLeft: =5
+                                        PaddingRight: =5
+                                        PaddingTop: =5
+                                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                                        PressedFill: =RGBA(0, 0, 0, 0)
+                                        RadiusBottomLeft: =30
+                                        RadiusBottomRight: =30
+                                        RadiusTopLeft: =30
+                                        RadiusTopRight: =30
+                                        Tooltip: ="See Linked Jira Tickets"
+                                        Width: =40
+                                        X: =120
+                                        Y: =(Parent.Height - Self.Height) / 2
+                                        ZIndex: =2
+
+                                    imgLinkLMI As image:
+                                        BorderColor: =RGBA(0, 0, 0, 0)
+                                        BorderStyle: =BorderStyle.None
+                                        BorderThickness: =2
+                                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                        DisabledFill: =RGBA(0, 0, 0, 0)
+                                        FocusedBorderThickness: =4
+                                        Height: =40
+                                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                                        HoverFill: =RGBA(0, 0, 0, 0)
+                                        Image: =LogMeIn
+                                        OnSelect: |-
+                                            =Launch("https://www.makepowerapps.com")
+                                        PaddingBottom: =5
+                                        PaddingLeft: =5
+                                        PaddingRight: =5
+                                        PaddingTop: =5
+                                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                                        PressedFill: =RGBA(0, 0, 0, 0)
+                                        RadiusBottomLeft: =30
+                                        RadiusBottomRight: =30
+                                        RadiusTopLeft: =30
+                                        RadiusTopRight: =30
+                                        Tooltip: ="Open Manaufactaer Support Site"
+                                        Visible: =If(ThisItem.'Device Type'.Value = "Laptop", true, false)
+                                        Width: =40
+                                        X: =40
+                                        Y: =(Parent.Height - Self.Height) / 2
+                                        ZIndex: =3
+
+                                    imgLinkMake As image:
+                                        BorderColor: =RGBA(0, 0, 0, 0)
+                                        BorderStyle: =BorderStyle.None
+                                        BorderThickness: =2
+                                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                        DisabledFill: =RGBA(0, 0, 0, 0)
+                                        FocusedBorderThickness: =4
+                                        Height: =40
+                                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                                        HoverFill: =RGBA(0, 0, 0, 0)
+                                        Image: =Switch(ThisItem.Make.Value, "Lenovo", Lenovo,"Dell Inc.", Dell_Logo)
+                                        OnSelect: =Launch(ThisItem.'Support Link')
+                                        PaddingBottom: =5
+                                        PaddingLeft: =5
+                                        PaddingRight: =5
+                                        PaddingTop: =5
+                                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                                        PressedFill: =RGBA(0, 0, 0, 0)
+                                        RadiusBottomLeft: =30
+                                        RadiusBottomRight: =30
+                                        RadiusTopLeft: =30
+                                        RadiusTopRight: =30
+                                        Tooltip: ="Open LogMeIn"
+                                        Visible: =If(ThisItem.'Device Type'.Value = "Laptop", true, false)
+                                        Width: =40
+                                        X: =80
+                                        Y: =(Parent.Height - Self.Height) / 2
+                                        ZIndex: =4
+
+                                    imgLinkSharePoint As image:
+                                        BorderColor: =RGBA(0, 0, 0, 0)
+                                        BorderStyle: =BorderStyle.None
+                                        BorderThickness: =2
+                                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                        DisabledFill: =RGBA(0, 0, 0, 0)
+                                        FocusedBorderThickness: =4
+                                        Height: =40
+                                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                                        HoverFill: =RGBA(0, 0, 0, 0)
+                                        Image: =sharepoint_48x1
+                                        OnSelect: =Launch(ThisItem.'Link to item')
+                                        PaddingBottom: =5
+                                        PaddingLeft: =5
+                                        PaddingRight: =5
+                                        PaddingTop: =5
+                                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                                        PressedFill: =RGBA(0, 0, 0, 0)
+                                        RadiusBottomLeft: =30
+                                        RadiusBottomRight: =30
+                                        RadiusTopLeft: =30
+                                        RadiusTopRight: =30
+                                        Tooltip: ="Open in SharePoint"
+                                        Width: =40
+                                        X: =160
+                                        Y: =(Parent.Height - Self.Height) / 2
+                                        ZIndex: =5
+
+                            conGalMobLinks As groupContainer.manualLayoutContainer:
+                                AlignInContainer: =AlignInContainer.Center
+                                FillPortions: =0.2
+                                Height: =Parent.Height
+                                LayoutMinHeight: =Parent.Height
+                                LayoutMinWidth: =25
+                                RadiusBottomLeft: =4
+                                RadiusBottomRight: =4
+                                RadiusTopLeft: =4
+                                RadiusTopRight: =4
+                                Visible: =If(App.ActiveScreen.Size <= 2, true, false)
+                                ZIndex: =8
+
+                                "tabMobExpandMenu As 'Tab list'.pcfdataset":
+                                    Alignment: ='TabList.Alignment'.Horizontal
+                                    DisplayMode: =DisplayMode.Edit
+                                    Height: =Parent.Height
+                                    Items: =tabActions
+                                    OnSelect: |-
+                                        =Switch(
+                                            tabMobExpandMenu.Selected.ID,
+                                            1,
+                                            Select(imgLinkEdit),
+                                            2,
+                                            Select(imgLinkJira),
+                                            3,
+                                            Select(imgLinkMake),
+                                            4,
+                                            Select(imgLinkSharePoint)
+                                        )
+                                    Size: ='TabList.Size'.Small
+                                    Width: =Parent.Width
+                                    X: =0
+                                    Y: =0
+                                    ZIndex: =1
+
+                                    Name1 As pcfDataField.textualColumn:
+                                        FieldDisplayName: ="Name"
+                                        FieldName: ="Name"
+                                        FieldType: ="s"
+                                        FieldVariantName: ="textualColumn"
+                                        Order: =1
+                                        ZIndex: =11
+
+                        ButtonCanvas3 As Button:
+                            Appearance: ='ButtonCanvas.Appearance'.Transparent
+                            BasePaletteColor: =
+                            DisplayMode: =DisplayMode.Edit
+                            FontColor: =
+                            Height: =Parent.TemplateHeight
+                            OnSelect: =Select(Parent)
+                            Text: =""
+                            Width: =Parent.TemplateWidth - If(conGalLinks.Width = 0, conGalMobLinks.Width, conGalLinks.Width)
+                            X: =0
+                            Y: =0
+                            ZIndex: =2
+
+            conSearch As groupContainer.verticalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.Start
+                BorderColor: =RGBA(17, 61, 15, 1)
+                BorderThickness: =2
+                Fill: =gblAppColors.BackgroundDefault
+                Height: =Button1_1.Height + Button1_1.Y + 5
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =15
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                RadiusBottomLeft: =10
+                RadiusBottomRight: =10
+                RadiusTopLeft: =10
+                RadiusTopRight: =10
+                Visible: =varSearch
+                Width: |
+                    =Parent.Width - 2*Self.BorderThickness
+                ZIndex: =3
+
+                conSearchHeader As groupContainer.manualLayoutContainer:
+                    BorderColor: =RGBA(17, 61, 15, 1)
+                    BorderStyle: =BorderStyle.None
+                    DropShadow: =DropShadow.Light
+                    Fill: =gblAppColors.BackgroundDefault
+                    FillPortions: =0
+                    Height: =45
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    RadiusBottomLeft: =10
+                    RadiusBottomRight: =10
+                    RadiusTopLeft: =10
+                    RadiusTopRight: =10
+                    Width: =Parent.Width - 2*Self.BorderThickness
+                    ZIndex: =1
+
+                    Button1 As button:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        Color: =gblAppColors.TeamsDarkTint40
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        DisplayMode: =DisplayMode.View
+                        Fill: =gblAppColors.BackgroundDefault
+                        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Bold
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(RGBA(73, 130, 5, 1), -10%)
+                        PressedBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -50%)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Size: =15
+                        Text: ="Search & Filter"
+                        Width: =Parent.Width
+                        Y: =5
+                        ZIndex: =1
+
+                    Icon2 As icon.BackArrow:
+                        BorderColor: =RGBA(166, 166, 166, 1)
+                        Color: =gblAppColors.TeamsDarkPrimary
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(220, 220, 220, 1)
+                        DisabledFill: =RGBA(0, 0, 0, 0)
+                        FocusedBorderThickness: =4
+                        Height: =Parent.Height
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        HoverFill: =RGBA(0, 0, 0, 0)
+                        Icon: =Icon.Search
+                        OnSelect: =Set(varSearch, false); Set(varMain, true)
+                        PaddingBottom: =5
+                        PaddingLeft: =5
+                        PaddingRight: =5
+                        PaddingTop: =5
+                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                        PressedColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        PressedFill: =RGBA(0, 0, 0, 0)
+                        Width: =40
+                        X: =Parent.Width - Self.Width
+                        ZIndex: =2
+
+                    Icon1 As icon.CancelBadge:
+                        BorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(220, 220, 220, 1)
+                        DisabledFill: =RGBA(0, 0, 0, 0)
+                        FocusedBorderThickness: =4
+                        Height: =40
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        HoverFill: =RGBA(0, 0, 0, 0)
+                        Icon: =Icon.CancelBadge
+                        OnSelect: =Set(varSearch, false); Set(varMain, true)
+                        PaddingBottom: =5
+                        PaddingLeft: =5
+                        PaddingRight: =5
+                        PaddingTop: =5
+                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                        PressedColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        PressedFill: =RGBA(0, 0, 0, 0)
+                        Width: =40
+                        ZIndex: =3
+
+                conSearchICT As groupContainer.manualLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =RGBA(17, 61, 15, 1)
+                    BorderStyle: =BorderStyle.None
+                    DropShadow: =DropShadow.Light
+                    Fill: =gblAppColors.BackgroundDefault
+                    FillPortions: =0
+                    Height: =45
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =Parent.Width - 2*Self.BorderThickness
+                    RadiusBottomLeft: =10
+                    RadiusBottomRight: =10
+                    RadiusTopLeft: =10
+                    RadiusTopRight: =10
+                    Width: =Parent.Width - 2*Self.BorderThickness
+                    ZIndex: =2
+
+                    inpSearchICT As text:
+                        BorderColor: =gblAppColors.TeamsDarkTint40
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =0
+                        Clear: =true
+                        Color: =gblAppColors.TeamsDefaultShade20
+                        Default: =""
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(0, 0, 0, 0)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        FocusedBorderThickness: =4
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =Parent.Height - 2*Self.BorderThickness
+                        HintText: ="Search ICT No."
+                        HoverBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        HoverColor: =RGBA(51, 51, 51, 1)
+                        HoverFill: =RGBA(255, 255, 255, 1)
+                        PaddingBottom: =0
+                        PaddingLeft: =Icon1_2.Width + 10
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        PressedBorderColor: =RGBA(73, 130, 5, 1)
+                        PressedColor: =RGBA(51, 51, 51, 1)
+                        PressedFill: =RGBA(255, 255, 255, 1)
+                        RadiusBottomLeft: =10
+                        RadiusBottomRight: =10
+                        RadiusTopLeft: =10
+                        RadiusTopRight: =10
+                        Size: =13
+                        Width: =Parent.Width
+                        Y: =(Parent.Height - Self.Height) / 2
+                        ZIndex: =1
+
+                    Icon1_2 As icon.Add:
+                        BorderColor: =RGBA(166, 166, 166, 1)
+                        Color: =gblAppColors.TeamsDarkPrimary
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(220, 220, 220, 1)
+                        DisabledFill: =RGBA(0, 0, 0, 0)
+                        FocusedBorderThickness: =4
+                        Height: =inpSearchICT.Height
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        HoverFill: =RGBA(0, 0, 0, 0)
+                        Icon: =Icon.Search
+                        PaddingLeft: =5
+                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                        PressedColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        PressedFill: =RGBA(0, 0, 0, 0)
+                        Width: =inpSearchICT.Height
+                        X: =inpSearchICT.X
+                        Y: =inpSearchICT.Y
+                        ZIndex: =2
+
+                conSearchEmployee As groupContainer.manualLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =RGBA(17, 61, 15, 1)
+                    BorderStyle: =BorderStyle.None
+                    DropShadow: =DropShadow.Light
+                    Fill: =gblAppColors.BackgroundDefault
+                    FillPortions: =0
+                    Height: =45
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =Parent.Width - 2*Self.BorderThickness
+                    RadiusBottomLeft: =10
+                    RadiusBottomRight: =10
+                    RadiusTopLeft: =10
+                    RadiusTopRight: =10
+                    Width: =Parent.Width - 2*Self.BorderThickness
+                    ZIndex: =3
+
+                    inpSearchEmployee As text:
+                        BorderColor: =gblAppColors.TeamsDarkTint40
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =0
+                        Clear: =true
+                        Color: =gblAppColors.TeamsDefaultShade10
+                        Default: =""
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(0, 0, 0, 0)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        FocusedBorderThickness: =4
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =Parent.Height - 2*Self.BorderThickness
+                        HintText: ="Search Employee"
+                        HoverBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        HoverColor: =RGBA(51, 51, 51, 1)
+                        HoverFill: =RGBA(255, 255, 255, 1)
+                        PaddingBottom: =0
+                        PaddingLeft: =Icon1_1.Width + 10
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        PressedBorderColor: =RGBA(73, 130, 5, 1)
+                        PressedColor: =RGBA(51, 51, 51, 1)
+                        PressedFill: =RGBA(255, 255, 255, 1)
+                        RadiusBottomLeft: =10
+                        RadiusBottomRight: =10
+                        RadiusTopLeft: =10
+                        RadiusTopRight: =10
+                        Size: =13
+                        Width: =Parent.Width
+                        Y: =(Parent.Height - Self.Height) / 2
+                        ZIndex: =1
+
+                    Icon1_1 As icon.Add:
+                        BorderColor: =RGBA(166, 166, 166, 1)
+                        Color: =gblAppColors.TeamsDarkPrimary
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(220, 220, 220, 1)
+                        DisabledFill: =RGBA(0, 0, 0, 0)
+                        FocusedBorderThickness: =4
+                        Height: =inpSearchEmployee.Height
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        HoverFill: =RGBA(0, 0, 0, 0)
+                        Icon: =Icon.Search
+                        PaddingLeft: =5
+                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                        PressedColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        PressedFill: =RGBA(0, 0, 0, 0)
+                        Width: =inpSearchEmployee.Height
+                        X: =inpSearchEmployee.X
+                        Y: =inpSearchEmployee.Y
+                        ZIndex: =2
+
+                conSearchITSM As groupContainer.manualLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =RGBA(17, 61, 15, 1)
+                    BorderStyle: =BorderStyle.None
+                    DropShadow: =DropShadow.Light
+                    Fill: =gblAppColors.BackgroundDefault
+                    FillPortions: =0
+                    Height: =45
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =Parent.Width - 2*Self.BorderThickness
+                    RadiusBottomLeft: =10
+                    RadiusBottomRight: =10
+                    RadiusTopLeft: =10
+                    RadiusTopRight: =10
+                    Visible: =false
+                    Width: =Parent.Width - 2*Self.BorderThickness
+                    ZIndex: =4
+
+                    Icon1_3 As icon.Add:
+                        BorderColor: =RGBA(166, 166, 166, 1)
+                        Color: =gblAppColors.TeamsDarkPrimary
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(220, 220, 220, 1)
+                        DisabledFill: =RGBA(0, 0, 0, 0)
+                        FocusedBorderThickness: =4
+                        Height: =inpSearchITSM.Height
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        HoverFill: =RGBA(0, 0, 0, 0)
+                        Icon: =Icon.Search
+                        PaddingLeft: =5
+                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                        PressedColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        PressedFill: =RGBA(0, 0, 0, 0)
+                        Width: =inpSearchITSM.Height
+                        X: =inpSearchITSM.X
+                        Y: =inpSearchITSM.Y
+                        ZIndex: =2
+
+                    inpSearchITSM As text:
+                        BorderColor: =gblAppColors.TeamsDarkTint40
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =0
+                        Clear: =true
+                        Color: =gblAppColors.TeamsDefaultShade20
+                        Default: =""
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(0, 0, 0, 0)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        FocusedBorderThickness: =4
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =Parent.Height - 2*Self.BorderThickness
+                        HintText: ="Search ITSM No."
+                        HoverBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        HoverColor: =RGBA(51, 51, 51, 1)
+                        HoverFill: =RGBA(255, 255, 255, 1)
+                        PaddingBottom: =0
+                        PaddingLeft: =Icon1_3.Width + 10
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        PressedBorderColor: =RGBA(73, 130, 5, 1)
+                        PressedColor: =RGBA(51, 51, 51, 1)
+                        PressedFill: =RGBA(255, 255, 255, 1)
+                        RadiusBottomLeft: =10
+                        RadiusBottomRight: =10
+                        RadiusTopLeft: =10
+                        RadiusTopRight: =10
+                        Size: =13
+                        Width: =Parent.Width
+                        Y: =(Parent.Height - Self.Height) / 2
+                        ZIndex: =3
+
+                conSearchStatus As groupContainer.manualLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =RGBA(17, 61, 15, 1)
+                    BorderStyle: =BorderStyle.None
+                    DropShadow: =DropShadow.Light
+                    Fill: =gblAppColors.BackgroundDefault
+                    FillPortions: =0
+                    Height: =45
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =Parent.Width - 2*Self.BorderThickness
+                    RadiusBottomLeft: =10
+                    RadiusBottomRight: =10
+                    RadiusTopLeft: =10
+                    RadiusTopRight: =10
+                    Width: =Parent.Width - 2*Self.BorderThickness
+                    ZIndex: =5
+
+                    inpSearchStatus As combobox:
+                        BorderColor: =RGBA(166, 166, 166, 1)
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =0
+                        ChevronBackground: =RGBA(166, 215, 153, 1)
+                        ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+                        ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+                        ChevronFill: =RGBA(33, 33, 33, 1)
+                        ChevronHoverBackground: =RGBA(212, 212, 212, 1)
+                        ChevronHoverFill: =RGBA(33, 33, 33, 1)
+                        Color: =RGBA(51, 51, 51, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        DisplayFields: =["Value"]
+                        Fill: =gblAppColors.BackgroundDefault
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =Parent.Height
+                        HoverBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        HoverColor: =RGBA(51, 51, 51, 1)
+                        HoverFill: =RGBA(212, 212, 212, 1)
+                        InputTextPlaceholder: ="Select Status"
+                        Items: =Choices('Hardware Asset List'.Status)
+                        NoSelectionText: ="All"
+                        OnChange: =
+                        PressedBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =RGBA(73, 130, 5, 1)
+                        SearchFields: =["Value"]
+                        SearchItems: =Choices('Hardware Asset List'.Status,inpSearchStatus.SearchText)
+                        SelectionColor: =RGBA(224, 86, 6, 1)
+                        SelectionFill: =RGBA(21, 68, 18, 1)
+                        Size: =13
+                        Width: =Parent.Width - 10
+                        X: =10
+                        ZIndex: =1
+
+                conSearchType As groupContainer.manualLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =RGBA(17, 61, 15, 1)
+                    BorderStyle: =BorderStyle.None
+                    DropShadow: =DropShadow.Light
+                    Fill: =gblAppColors.BackgroundDefault
+                    FillPortions: =0
+                    Height: =45
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =Parent.Width - 2*Self.BorderThickness
+                    RadiusBottomLeft: =10
+                    RadiusBottomRight: =10
+                    RadiusTopLeft: =10
+                    RadiusTopRight: =10
+                    Width: =Parent.Width - 2*Self.BorderThickness
+                    ZIndex: =6
+
+                    inpSearchType As combobox:
+                        BorderColor: =RGBA(166, 166, 166, 1)
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =0
+                        ChevronBackground: =RGBA(166, 215, 153, 1)
+                        ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+                        ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+                        ChevronFill: =RGBA(33, 33, 33, 1)
+                        ChevronHoverBackground: =RGBA(212, 212, 212, 1)
+                        ChevronHoverFill: =RGBA(33, 33, 33, 1)
+                        Color: =RGBA(51, 51, 51, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        DisplayFields: =["Value"]
+                        Fill: =gblAppColors.BackgroundDefault
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =Parent.Height
+                        HoverBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        HoverColor: =RGBA(51, 51, 51, 1)
+                        HoverFill: =RGBA(212, 212, 212, 1)
+                        InputTextPlaceholder: ="Select Device Type"
+                        Items: =Choices('Hardware Asset List'.'Device Type')
+                        NoSelectionText: ="All"
+                        PressedBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =RGBA(73, 130, 5, 1)
+                        SearchFields: =["Value"]
+                        SearchItems: =Choices('Hardware Asset List'.'Device Type',inpSearchType.SearchText)
+                        SelectionColor: =RGBA(224, 86, 6, 1)
+                        SelectionFill: =RGBA(21, 68, 18, 1)
+                        Size: =13
+                        Width: =Parent.Width - 10
+                        X: =5
+                        ZIndex: =2
+
+                conSearchMake As groupContainer.manualLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =RGBA(17, 61, 15, 1)
+                    BorderStyle: =BorderStyle.None
+                    DropShadow: =DropShadow.Light
+                    Fill: =gblAppColors.BackgroundDefault
+                    FillPortions: =0
+                    Height: =45
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =Parent.Width - 2*Self.BorderThickness
+                    RadiusBottomLeft: =10
+                    RadiusBottomRight: =10
+                    RadiusTopLeft: =10
+                    RadiusTopRight: =10
+                    Width: =Parent.Width - 2*Self.BorderThickness
+                    ZIndex: =7
+
+                    inpSearchMake As combobox:
+                        BorderColor: =RGBA(166, 166, 166, 1)
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =0
+                        ChevronBackground: =RGBA(166, 215, 153, 1)
+                        ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+                        ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+                        ChevronFill: =RGBA(33, 33, 33, 1)
+                        ChevronHoverBackground: =RGBA(212, 212, 212, 1)
+                        ChevronHoverFill: =RGBA(33, 33, 33, 1)
+                        Color: =RGBA(51, 51, 51, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        DisplayFields: =["Value"]
+                        Fill: =gblAppColors.BackgroundDefault
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =Parent.Height
+                        HoverBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        HoverColor: =RGBA(51, 51, 51, 1)
+                        HoverFill: =RGBA(212, 212, 212, 1)
+                        InputTextPlaceholder: ="Select Make"
+                        Items: =Choices('Hardware Asset List'.Make)
+                        NoSelectionText: ="All"
+                        PressedBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =RGBA(73, 130, 5, 1)
+                        SearchFields: =["Value"]
+                        SearchItems: =Choices('Hardware Asset List'.Make,inpSearchMake.SearchText)
+                        SelectionFill: =RGBA(73, 130, 5, 1)
+                        Size: =13
+                        Width: =Parent.Width - 10
+                        X: =5
+                        ZIndex: =2
+
+                conSearchModel As groupContainer.manualLayoutContainer:
+                    BorderColor: =RGBA(17, 61, 15, 1)
+                    BorderStyle: =BorderStyle.None
+                    DropShadow: =DropShadow.Light
+                    Fill: =gblAppColors.BackgroundDefault
+                    FillPortions: =0
+                    Height: =45
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    RadiusBottomLeft: =10
+                    RadiusBottomRight: =10
+                    RadiusTopLeft: =10
+                    RadiusTopRight: =10
+                    Width: =Parent.Width - 2*Self.BorderThickness
+                    ZIndex: =8
+
+                    inpSearchModel As combobox:
+                        BorderColor: =RGBA(166, 166, 166, 1)
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =0
+                        ChevronBackground: =RGBA(166, 215, 153, 1)
+                        ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+                        ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+                        ChevronFill: =RGBA(33, 33, 33, 1)
+                        ChevronHoverBackground: =RGBA(212, 212, 212, 1)
+                        ChevronHoverFill: =RGBA(33, 33, 33, 1)
+                        Color: =RGBA(51, 51, 51, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        DisplayFields: =["Value"]
+                        Fill: =gblAppColors.BackgroundDefault
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =Parent.Height
+                        HoverBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        HoverColor: =RGBA(51, 51, 51, 1)
+                        HoverFill: =RGBA(212, 212, 212, 1)
+                        InputTextPlaceholder: ="Select Model"
+                        Items: =Choices('Hardware Asset List'.Model)
+                        NoSelectionText: ="All"
+                        PressedBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =RGBA(73, 130, 5, 1)
+                        SearchFields: =["Value"]
+                        SearchItems: =Choices('Hardware Asset List'.Model,inpSearchModel.SearchText)
+                        SelectionColor: =RGBA(17, 61, 15, 1)
+                        SelectionFill: =RGBA(72, 163, 62, 1)
+                        Size: =13
+                        Width: =Parent.Width - 10
+                        X: =5
+                        ZIndex: =2
+
+                Button1_1 As button:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    Color: =gblAppColors.TeamsDarkTint40
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisabledFill: =RGBA(244, 244, 244, 1)
+                    Fill: =gblAppColors.BackgroundDefault
+                    FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Semibold
+                    HoverBorderColor: =RGBA(0, 0, 0, 0)
+                    HoverColor: =RGBA(255, 255, 255, 1)
+                    HoverFill: =ColorFade(RGBA(73, 130, 5, 1), -10%)
+                    OnSelect: |-
+                        =Reset(inpSearchEmployee);
+                        Reset(inpSearchICT);
+                        Reset(inpSearchType);
+                        Reset(inpSearchITSM);
+                        Reset(inpSearchMake);
+                        Reset(inpSearchStatus);
+                        Reset(inpSearchModel)
+                    PressedBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -50%)
+                    PressedColor: =RGBA(255, 255, 255, 1)
+                    PressedFill: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =15
+                    Text: ="Reset"
+                    Width: =Parent.Width
+                    ZIndex: =9
+
+    conITSM As groupContainer.manualLayoutContainer:
+        DropShadow: =DropShadow.Light
+        Fill: =RGBA(0, 0, 0, 0.3)
+        Height: =App.Height
+        RadiusBottomLeft: =4
+        RadiusBottomRight: =4
+        RadiusTopLeft: =4
+        RadiusTopRight: =4
+        Visible: =varITSM
+        Width: =App.Width
+        ZIndex: =2
+
+        conITSMMain As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.Regular
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =App.Height * 0.6
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Width: =App.Width * 0.5
+            X: =(App.Width - Self.Width) / 2
+            Y: =(App.Height - Self.Height) / 2
+            ZIndex: =1
+
+            conITSMMainBody As groupContainer.verticalAutoLayoutContainer:
+                DropShadow: =DropShadow.Semilight
+                Height: =Parent.Height
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMode: =LayoutMode.Auto
+                RadiusBottomLeft: =4
+                RadiusBottomRight: =4
+                RadiusTopLeft: =4
+                RadiusTopRight: =4
+                Width: =Parent.Width
+                ZIndex: =2
+
+                conITSMHeader As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    DropShadow: =DropShadow.Regular
+                    FillPortions: =0
+                    Height: =50
+                    LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                    LayoutMinHeight: =112
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    RadiusBottomLeft: =4
+                    RadiusBottomRight: =4
+                    RadiusTopLeft: =4
+                    RadiusTopRight: =4
+                    Width: =Parent.Width
+                    X: =40
+                    Y: =40
+                    ZIndex: =1
+
+                    Icon2_5 As icon.BackArrow:
+                        BorderColor: =RGBA(0, 18, 107, 1)
+                        Color: =RGBA(240, 98, 15, 1)
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(244, 244, 244, 1)
+                        Height: =50
+                        Icon: =Icon.BackArrow
+                        OnSelect: =Set(varITSM, false)
+                        PaddingBottom: =5
+                        PaddingLeft: =5
+                        PaddingTop: =5
+                        Width: =50
+                        ZIndex: =1
+
+                    TextCanvas4 As Text:
+                        Align: ='TextCanvas.Align'.Center
+                        AutoHeight: =false
+                        DisplayMode: =DisplayMode.Edit
+                        FillPortions: =1
+                        FontColor: =RGBA(21, 68, 18, 1)
+                        Height: =Parent.Height
+                        LayoutMinHeight: =32
+                        LayoutMinWidth: =96
+                        Size: =25
+                        Text: ="Jira Tickets"
+                        VerticalAlign: ='TextCanvas.VerticalAlign'.Middle
+                        Weight: ='TextCanvas.Weight'.Bold
+                        Width: =Parent.Width -( Icon2_5.Width *2)
+                        X: =0
+                        Y: =0
+                        ZIndex: =2
+
+                    Icon2_6 As icon.BackArrow:
+                        BorderColor: =RGBA(0, 18, 107, 1)
+                        Color: =RGBA(240, 98, 15, 1)
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(244, 244, 244, 1)
+                        Height: =50
+                        Icon: =Icon.Reset
+                        OnSelect: =Set(varITSM, false)
+                        PaddingBottom: =5
+                        PaddingLeft: =5
+                        PaddingTop: =5
+                        Width: =50
+                        ZIndex: =3
+
+                conITSMBody As groupContainer.verticalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    DropShadow: =DropShadow.Light
+                    Height: =225
+                    LayoutDirection: =LayoutDirection.Vertical
+                    LayoutMinHeight: =112
+                    LayoutMinWidth: =Parent.Width
+                    LayoutMode: =LayoutMode.Auto
+                    RadiusBottomLeft: =4
+                    RadiusBottomRight: =4
+                    RadiusTopLeft: =4
+                    RadiusTopRight: =4
+                    Width: =Parent.Width
+                    ZIndex: =2
+
+                    "galITSM As gallery.'BrowseLayout_Vertical_ThreeTextVariant_ver5.0'":
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        BorderColor: =RGBA(0, 18, 107, 1)
+                        BorderThickness: =
+                        DelayItemLoading: =true
+                        Height: =Parent.Height
+                        Items: =colITSM
+                        Layout: =Layout.Vertical
+                        LayoutMinHeight: =Parent.Height
+                        LayoutMinWidth: =Parent.Width
+                        LoadingSpinner: =LoadingSpinner.Data
+                        OnSelect: =Launch(ThisItem.Link)
+                        TemplatePadding: =0
+                        TemplateSize: =100
+                        Transition: =Transition.Pop
+                        Width: =Parent.Width
+                        ZIndex: =1
+
+                        NextArrow2_2 As icon.ChevronRight:
+                            AccessibleLabel: =Self.Tooltip
+                            BorderColor: =RGBA(240, 98, 15, 1)
+                            Color: =RGBA(240, 98, 15, 1)
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(244, 244, 244, 1)
+                            Height: =50
+                            Icon: =Icon.ChevronRight
+                            OnSelect: =Select(Parent)
+                            PaddingBottom: =16
+                            PaddingLeft: =16
+                            PaddingRight: =16
+                            PaddingTop: =16
+                            Tooltip: ="View item details"
+                            Width: =50
+                            X: =1042
+                            Y: =20
+                            ZIndex: =4
+
+                        Separator2_2 As rectangle:
+                            BorderColor: =RGBA(0, 18, 107, 1)
+                            Fill: =RGBA(255, 255, 255, 1)
+                            Height: =8
+                            OnSelect: =Select(Parent)
+                            Width: =Parent.TemplateWidth
+                            Y: =Parent.TemplateHeight - Self.Height
+                            ZIndex: =5
+
+                        Rectangle3_2 As rectangle:
+                            BorderColor: =RGBA(240, 98, 15, 1)
+                            Fill: =RGBA(240, 98, 15, 1)
+                            Height: =Parent.TemplateHeight - Separator2_2.Height
+                            OnSelect: =Select(Parent)
+                            Visible: =ThisItem.IsSelected
+                            Width: =1
+                            ZIndex: =6
+
+                        Container11_2 As groupContainer.verticalAutoLayoutContainer:
+                            DropShadow: =DropShadow.Semilight
+                            Height: =Parent.Height / 4
+                            LayoutAlignItems: =LayoutAlignItems.Stretch
+                            LayoutDirection: =LayoutDirection.Vertical
+                            LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                            LayoutMode: =LayoutMode.Auto
+                            RadiusBottomLeft: =4
+                            RadiusBottomRight: =4
+                            RadiusTopLeft: =4
+                            RadiusTopRight: =4
+                            Width: =Parent.Width
+                            ZIndex: =7
+
+                            txtTitle_2 As label:
+                                Color: =RGBA(50, 49, 48, 1)
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                FillPortions: =1
+                                FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                                Height: =Self.Size * 1.8
+                                LayoutMinHeight: =5
+                                LayoutMinWidth: =Parent.Width
+                                LineHeight: =1.1
+                                OnSelect: =Launch(ThisItem.Link)
+                                PaddingLeft: =10
+                                Text: =ThisItem.Title & " - " & ThisItem.'Request Type'.Value
+                                VerticalAlign: =VerticalAlign.Top
+                                Width: =Parent.Width
+                                X: =16
+                                Y: =(Parent.Height - (Self.Size*1.8 + txtSummary_3.Size*1.8 + 2 + 'txtDate/Reporter_2'.Size*1.8)) / 2
+                                ZIndex: =1
+
+                            txtSummary_4 As label:
+                                Color: =RGBA(0, 0, 0, 1)
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                FillPortions: =1
+                                FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                                Height: =Self.Size * 1.8
+                                LayoutMinHeight: =5
+                                LayoutMinWidth: =Parent.Width
+                                LineHeight: =1
+                                OnSelect: =Launch(ThisItem.Link)
+                                PaddingLeft: =10
+                                Size: =12
+                                Text: |-
+                                    ="Assignee: " & ThisItem.Assignee.DisplayName 
+                                VerticalAlign: =VerticalAlign.Top
+                                Width: =txtTitle_2.Width
+                                X: =txtTitle_2.X
+                                Y: =txtTitle_2.Y + txtTitle_2.Height
+                                ZIndex: =2
+
+                            txtSummary_3 As label:
+                                Color: =RGBA(0, 0, 0, 1)
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                FillPortions: =1
+                                FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                                Height: =Self.Size * 1.8
+                                LayoutMinHeight: =5
+                                LayoutMinWidth: =Parent.Width
+                                LineHeight: =1
+                                OnSelect: =Launch(ThisItem.Link)
+                                PaddingLeft: =10
+                                Size: =12
+                                Text: =ThisItem.Summary
+                                VerticalAlign: =VerticalAlign.Top
+                                Width: =txtTitle_2.Width
+                                X: =txtTitle_2.X
+                                Y: =txtTitle_2.Y + txtTitle_2.Height
+                                ZIndex: =3
+
+                            "'txtDate/Reporter_2' As label":
+                                Color: =RGBA(0, 0, 0, 1)
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                FillPortions: =1
+                                FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                                Height: =Self.Size * 1.8
+                                LayoutMinHeight: =5
+                                LayoutMinWidth: =Parent.Width
+                                LineHeight: =1
+                                OnSelect: =Launch(ThisItem.Link)
+                                PaddingLeft: =10
+                                Size: =12
+                                Text: =ThisItem.Date & " - " & ThisItem.Reporter.DisplayName
+                                VerticalAlign: =VerticalAlign.Top
+                                Width: =txtTitle_2.Width
+                                X: =txtTitle_2.X
+                                Y: =txtSummary_3.Y + txtSummary_3.Height
+                                ZIndex: =4
+
+    conSpinner As groupContainer.manualLayoutContainer:
+        DropShadow: =DropShadow.Light
+        Fill: =RGBA(214, 221, 224, 0.6)
+        Height: =App.Height
+        RadiusBottomLeft: =4
+        RadiusBottomRight: =4
+        RadiusTopLeft: =4
+        RadiusTopRight: =4
+        Visible: =varSpinner
+        Width: =App.Width
+        ZIndex: =3
+
+        Spinner1 As Spinner:
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            FontColor: =
+            Height: =306
+            Label: ="Loading"
+            LabelPosition: ="Below"
+            SpinnerSize: ="Extra Large"
+            Visible: =varSpinner
+            Width: =300
+            X: =(App.Width - Self.Width) / 2
+            Y: =(App.Height - Self.Height) / 2
+            ZIndex: =1
+
+    ButtonCanvas1 As Button:
+        BasePaletteColor: =
+        DisplayMode: =DisplayMode.Edit
+        FontColor: =
+        Height: =32
+        Width: =96
+        X: =40
+        Y: =40
+        ZIndex: =4
+

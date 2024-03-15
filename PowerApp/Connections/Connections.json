@@ -1,0 +1,111 @@
+{
+  "44556634-ffbb-4e21-ae6e-29e63ded8c1c": {
+    "appActions": [],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Outlook",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1676/1.0.1676.3617/office365/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Outlook"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "44556634-ffbb-4e21-ae6e-29e63ded8c1c"
+  },
+  "6350c6f0-9e0c-438c-b627-68c72332d961": {
+    "appActions": [
+      "providers/PowerPlatform.Governance/Operations/Read"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://connectoricons-prod.azureedge.net/u/alexsp/sporelease/1.0.1682.3673/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://gcontrol365.sharepoint.com/sites/ITAssetManagement": {
+        "dataSources": {
+          "Asset to Jira": {
+            "tableName": "260d509a-308a-4a5f-97f3-b2c2c731efc2"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "Asset to Jira"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "6350c6f0-9e0c-438c-b627-68c72332d961"
+  },
+  "a0c53402-05f8-414f-851c-9ebf87463a70": {
+    "appActions": [
+      "MyProfile_V2",
+      "UserPhoto_V2",
+      "UserPhotoMetadata"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Users",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1672/1.0.1672.3545/office365users/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365users",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Users"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "a0c53402-05f8-414f-851c-9ebf87463a70"
+  },
+  "be7ef839-d896-491e-a4ca-8c70abff94b2": {
+    "appActions": [
+      "providers/PowerPlatform.Governance/Operations/Read",
+      "providers/PowerPlatform.Governance/Operations/Write"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://connectoricons-prod.azureedge.net/u/alexsp/sporelease/1.0.1682.3673/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://gcontrol365.sharepoint.com/sites/ITAssetManagement": {
+        "dataSources": {
+          "02 Phone Numbers": {
+            "tableName": "eecdad44-2124-4e1e-8695-20b86c8b3870"
+          },
+          "Asset Management List": {
+            "tableName": "1c8b074b-0535-408b-994c-ea40c9310049"
+          },
+          "Billericay Stock": {
+            "tableName": "32597dfa-30ac-47ff-a8d2-11b7c157071b"
+          },
+          "Hardware Asset List": {
+            "tableName": "d96c5317-6732-4e80-91ad-c5d8e47255c8"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "02 Phone Numbers",
+      "Asset Management List",
+      "Hardware Asset List",
+      "Billericay Stock"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "be7ef839-d896-491e-a4ca-8c70abff94b2"
+  }
+}

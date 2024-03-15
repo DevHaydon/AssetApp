@@ -1,0 +1,167 @@
+"'GC Dialog' As CanvasComponent":
+    Fill: =Color.Transparent
+    Height: =App.Height
+    ITSMTickets: =varITSM
+    ITSMVisible: =IsBlank('GC Dialog'.ITSMTickets)
+    PopupVisible: =true
+    Question: ="Text"
+    TicketDetails: |-
+        =Table({SampleStringField: "SampleText", SampleNumberField: 10, SampleBooleanField: true})
+    varPopupVisible: =true
+    Width: =App.Width
+    X: =0
+    Y: =0
+    ZIndex: =2
+
+    Container15_1 As groupContainer.manualLayoutContainer:
+        DropShadow: =DropShadow.Light
+        Fill: =RGBA(0, 0, 0, 0.3)
+        Height: =App.Height
+        RadiusBottomLeft: =4
+        RadiusBottomRight: =4
+        RadiusTopLeft: =4
+        RadiusTopRight: =4
+        Visible: ='GC Dialog'.PopupVisible
+        Width: =App.Width
+        ZIndex: =2
+
+        Container3_2 As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.Regular
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =App.Height * 0.3
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Width: =App.Width * 0.8
+            X: =(App.Width - Self.Width) / 2
+            Y: =(App.Height - Self.Height) / 2
+            ZIndex: =1
+
+            Container8_2 As groupContainer.verticalAutoLayoutContainer:
+                DropShadow: =DropShadow.Semilight
+                Height: =Parent.Height
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMode: =LayoutMode.Auto
+                RadiusBottomLeft: =4
+                RadiusBottomRight: =4
+                RadiusTopLeft: =4
+                RadiusTopRight: =4
+                Width: =Parent.Width
+                ZIndex: =2
+
+                Container7_2 As groupContainer.horizontalAutoLayoutContainer:
+                    DropShadow: =DropShadow.Regular
+                    FillPortions: =0
+                    Height: =50
+                    LayoutMinHeight: =112
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    RadiusBottomLeft: =4
+                    RadiusBottomRight: =4
+                    RadiusTopLeft: =4
+                    RadiusTopRight: =4
+                    X: =40
+                    Y: =40
+                    ZIndex: =1
+
+                    Icon2_2 As icon.BackArrow:
+                        BorderColor: =RGBA(0, 18, 107, 1)
+                        Color: =RGBA(240, 98, 15, 1)
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(244, 244, 244, 1)
+                        Height: =50
+                        Icon: =Icon.BackArrow
+                        OnSelect: =UpdateContext(varPopupVisible, false)
+                        PaddingBottom: =5
+                        PaddingLeft: =5
+                        PaddingTop: =5
+                        Width: =50
+                        ZIndex: =1
+
+                Container9_2 As groupContainer.verticalAutoLayoutContainer:
+                    DropShadow: =DropShadow.Light
+                    Fill: =RGBA(255, 255, 255, 1)
+                    Height: =Label2.Height + Gallery1.Height + Button3.Height + 30
+                    LayoutAlignItems: =LayoutAlignItems.Center
+                    LayoutDirection: =LayoutDirection.Vertical
+                    LayoutJustifyContent: =LayoutJustifyContent.End
+                    LayoutMinHeight: =112
+                    LayoutMinWidth: =Parent.Width
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingBottom: =10
+                    PaddingLeft: =10
+                    PaddingRight: =10
+                    PaddingTop: =10
+                    RadiusBottomLeft: =4
+                    RadiusBottomRight: =4
+                    RadiusTopLeft: =4
+                    RadiusTopRight: =4
+                    Width: =Parent.Width
+                    ZIndex: =2
+
+                    Label2 As label:
+                        Align: =Align.Center
+                        BorderColor: =RGBA(0, 18, 107, 1)
+                        Color: =RGBA(0, 0, 0, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Height: =70
+                        LayoutMinHeight: =70
+                        LayoutMinWidth: =Parent.LayoutMinWidth
+                        Size: =21
+                        Text: ='GC Dialog'.Question
+                        Width: =560
+                        ZIndex: =1
+
+                    "Gallery1 As gallery.'BrowseLayout_Vertical_OneTextVariant_ver5.0'":
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        BorderColor: =RGBA(0, 18, 107, 1)
+                        DelayItemLoading: =true
+                        Items: =CustomGallerySample
+                        Layout: =Layout.Vertical
+                        LayoutMinHeight: =287
+                        LayoutMinWidth: =320
+                        LoadingSpinner: =LoadingSpinner.Data
+                        ShowScrollbar: =false
+                        TemplatePadding: =10
+                        TemplateSize: =80
+                        Transition: =Transition.Pop
+                        Width: =Parent.Width
+                        WrapCount: =2
+                        ZIndex: =2
+
+                        Button2 As button:
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            Fill: =RGBA(166, 215, 153, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =70
+                            HoverColor: =RGBA(255, 255, 255, 1)
+                            HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+                            OnSelect: =Select(Parent)
+                            Size: =19
+                            Text: ="Button"
+                            Width: =(Parent.Width / 2) - 20
+                            ZIndex: =1
+
+                    Button3 As button:
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =RGBA(56, 96, 178, 1)
+                        FontWeight: =FontWeight.Semibold
+                        Height: =60
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+                        LayoutMinHeight: =70
+                        LayoutMinWidth: =280
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        Size: =24
+                        Text: ="Button"
+                        Width: =200
+                        ZIndex: =3
+

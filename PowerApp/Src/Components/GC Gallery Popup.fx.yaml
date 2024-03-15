@@ -1,0 +1,238 @@
+"'GC Gallery Popup' As CanvasComponent":
+    Fill: =Color.Transparent
+    Height: =App.Height
+    ITSMTickets: =colITSM
+    ITSMVisible: =
+    PopupVisible: =true
+    TicketDetails: |-
+        =Table({SampleStringField: "SampleText", SampleNumberField: 10, SampleBooleanField: true})
+    varPopupVisible: =true
+    Width: =App.Width
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    Container15 As groupContainer.manualLayoutContainer:
+        DropShadow: =DropShadow.Light
+        Fill: =RGBA(0, 0, 0, 0.3)
+        Height: =App.Height
+        RadiusBottomLeft: =4
+        RadiusBottomRight: =4
+        RadiusTopLeft: =4
+        RadiusTopRight: =4
+        Visible: ='GC Gallery Popup'.PopupVisible
+        Width: =App.Width
+        ZIndex: =2
+
+        Container3_1 As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.Regular
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =App.Height * 0.6
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Width: =App.Width * 0.8
+            X: =(App.Width - Self.Width) / 2
+            Y: =(App.Height - Self.Height) / 2
+            ZIndex: =1
+
+            Container8_1 As groupContainer.verticalAutoLayoutContainer:
+                DropShadow: =DropShadow.Semilight
+                Height: =Parent.Height
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMode: =LayoutMode.Auto
+                RadiusBottomLeft: =4
+                RadiusBottomRight: =4
+                RadiusTopLeft: =4
+                RadiusTopRight: =4
+                Width: =Parent.Width
+                ZIndex: =2
+
+                Container7_1 As groupContainer.horizontalAutoLayoutContainer:
+                    DropShadow: =DropShadow.Regular
+                    FillPortions: =0
+                    Height: =50
+                    LayoutMinHeight: =112
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    RadiusBottomLeft: =4
+                    RadiusBottomRight: =4
+                    RadiusTopLeft: =4
+                    RadiusTopRight: =4
+                    X: =40
+                    Y: =40
+                    ZIndex: =1
+
+                    Icon2_1 As icon.BackArrow:
+                        BorderColor: =RGBA(0, 18, 107, 1)
+                        Color: =RGBA(240, 98, 15, 1)
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(244, 244, 244, 1)
+                        Height: =50
+                        Icon: =Icon.BackArrow
+                        OnSelect: =UpdateContext(varITSM, false)
+                        PaddingBottom: =5
+                        PaddingLeft: =5
+                        PaddingTop: =5
+                        Width: =50
+                        ZIndex: =1
+
+                Container9_1 As groupContainer.verticalAutoLayoutContainer:
+                    DropShadow: =DropShadow.Light
+                    Height: =225
+                    LayoutDirection: =LayoutDirection.Vertical
+                    LayoutMinHeight: =112
+                    LayoutMinWidth: =Parent.Width
+                    LayoutMode: =LayoutMode.Auto
+                    RadiusBottomLeft: =4
+                    RadiusBottomRight: =4
+                    RadiusTopLeft: =4
+                    RadiusTopRight: =4
+                    Width: =Parent.Width
+                    ZIndex: =2
+
+                    "Gallery1_1 As gallery.'BrowseLayout_Vertical_ThreeTextVariant_ver5.0'":
+                        BorderColor: =RGBA(0, 18, 107, 1)
+                        DelayItemLoading: =true
+                        Height: =Parent.Height
+                        Items: ='GC Gallery Popup'.ITSMTickets
+                        Layout: =Layout.Vertical
+                        LayoutMinHeight: =Parent.Height
+                        LayoutMinWidth: =Container9_1.LayoutMinWidth
+                        LoadingSpinner: =LoadingSpinner.Data
+                        OnSelect: =Launch(ThisItem.'Jira Link')
+                        TemplatePadding: =0
+                        TemplateSize: =90
+                        Transition: =Transition.Pop
+                        Width: =Parent.Width
+                        WrapCount: =2
+                        ZIndex: =1
+
+                        NextArrow2_1 As icon.ChevronRight:
+                            AccessibleLabel: =Self.Tooltip
+                            BorderColor: =RGBA(240, 98, 15, 1)
+                            Color: =RGBA(240, 98, 15, 1)
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(244, 244, 244, 1)
+                            Height: =50
+                            Icon: =Icon.ChevronRight
+                            OnSelect: =Select(Parent)
+                            PaddingBottom: =16
+                            PaddingLeft: =16
+                            PaddingRight: =16
+                            PaddingTop: =16
+                            Tooltip: ="View item details"
+                            Width: =50
+                            X: =Parent.TemplateWidth - Self.Width - 12
+                            Y: =(Parent.TemplateHeight / 2) - (Self.Height / 2)
+                            ZIndex: =4
+
+                        Separator2_1 As rectangle:
+                            BorderColor: =RGBA(0, 18, 107, 1)
+                            Fill: =RGBA(255, 255, 255, 1)
+                            Height: =8
+                            OnSelect: =Select(Parent)
+                            Width: =Parent.TemplateWidth
+                            Y: =Parent.TemplateHeight - Self.Height
+                            ZIndex: =5
+
+                        Rectangle3_1 As rectangle:
+                            BorderColor: =RGBA(240, 98, 15, 1)
+                            Fill: =RGBA(240, 98, 15, 1)
+                            Height: =Parent.TemplateHeight - Separator2_1.Height
+                            OnSelect: =Select(Parent)
+                            Visible: =ThisItem.IsSelected
+                            Width: =4
+                            ZIndex: =6
+
+                        Container11_1 As groupContainer.verticalAutoLayoutContainer:
+                            DropShadow: =DropShadow.Semilight
+                            Height: =225
+                            LayoutAlignItems: =LayoutAlignItems.Stretch
+                            LayoutDirection: =LayoutDirection.Vertical
+                            LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                            LayoutMode: =LayoutMode.Auto
+                            RadiusBottomLeft: =4
+                            RadiusBottomRight: =4
+                            RadiusTopLeft: =4
+                            RadiusTopRight: =4
+                            Width: =Parent.Width
+                            Y: =4
+                            ZIndex: =7
+
+                            txtTitle_1 As label:
+                                Color: =RGBA(50, 49, 48, 1)
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                FillPortions: =1
+                                FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                                Height: =Self.Size * 1.8
+                                LayoutMinHeight: =5
+                                LayoutMinWidth: =Parent.Width
+                                LineHeight: =1.1
+                                OnSelect: =Launch(ThisItem.Jira_x0020_Link)
+                                PaddingLeft: =10
+                                Text: =ThisItem.Title & " - " & ThisItem.Priority.Value
+                                VerticalAlign: =VerticalAlign.Top
+                                Width: =Parent.Width
+                                X: =16
+                                Y: =(Parent.Height - (Self.Size*1.8 + txtSummary_1.Size*1.8 + 2 + 'txtDate/Reporter_1'.Size*1.8)) / 2
+                                ZIndex: =1
+
+                            txtSummary_1 As label:
+                                Color: =RGBA(0, 0, 0, 1)
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                FillPortions: =1
+                                FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                                Height: =Self.Size * 1.8
+                                LayoutMinHeight: =5
+                                LayoutMinWidth: =Parent.Width
+                                LineHeight: =1
+                                OnSelect: =Launch(ThisItem.Jira_x0020_Link)
+                                PaddingLeft: =10
+                                Size: =12
+                                Text: =ThisItem.IsSelected
+                                VerticalAlign: =VerticalAlign.Top
+                                Width: =txtTitle_1.Width
+                                X: =txtTitle_1.X
+                                Y: =txtTitle_1.Y + txtTitle_1.Height
+                                ZIndex: =2
+
+                            txtSummary_2 As label:
+                                Color: =RGBA(0, 0, 0, 1)
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                FillPortions: =1
+                                FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                                Height: =Self.Size * 1.8
+                                LayoutMinHeight: =5
+                                LayoutMinWidth: =Parent.Width
+                                LineHeight: =1
+                                OnSelect: =Launch(ThisItem.Jira_x0020_Link)
+                                PaddingLeft: =10
+                                Size: =12
+                                Text: =ThisItem.Description
+                                VerticalAlign: =VerticalAlign.Top
+                                Width: =txtTitle_1.Width
+                                X: =txtTitle_1.X
+                                Y: =txtTitle_1.Y + txtTitle_1.Height
+                                ZIndex: =3
+
+                            "'txtDate/Reporter_1' As label":
+                                Color: =RGBA(0, 0, 0, 1)
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                FillPortions: =1
+                                FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                                Height: =Self.Size * 1.8
+                                LayoutMinHeight: =5
+                                LayoutMinWidth: =Parent.Width
+                                LineHeight: =1
+                                OnSelect: =Launch(ThisItem.Jira_x0020_Link)
+                                PaddingLeft: =10
+                                Size: =12
+                                Text: =ThisItem.DateReported & " - " & ThisItem.Issueloggedby.DisplayName
+                                VerticalAlign: =VerticalAlign.Top
+                                Width: =txtTitle_1.Width
+                                X: =txtTitle_1.X
+                                Y: =txtSummary_1.Y + txtSummary_1.Height
+                                ZIndex: =4
+

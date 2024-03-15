@@ -1,0 +1,381 @@
+App As appinfo:
+    BackEnabled: =true
+    Formulas: |+
+        =ScreenSize = If(App.ActiveScreen.Size <= 2, "Mobile", "Non-Mobile") ;
+        colFormTabs = Table(
+            {
+                tabName: "Asset",
+                ID: 1,
+                NotValid: "",
+                Icon: "💻"
+            },
+            {
+                tabName: "Phone",
+                ID: 2,
+                NotValid: "",
+                Icon: "📞"
+            },
+            {
+                tabName: "Employee",
+                ID: 3,
+                Icon: "👩‍💻"
+            }
+        );
+            // Menu Items Normal
+        colMenu = Table(
+            {
+                Screen: Home,
+                Name: "🏠 Home",
+                Action: "Navigate",
+                ID: 0
+            },
+            {
+                Screen: Home,
+                Name: "🔎 Search",
+                Action: "Navigate",
+                ID: 1
+            },
+            {
+                Screen: EditScreen,
+                Name: "✏️ Edit",
+                Action: "Edit",
+                ID: 2
+            },
+            {
+                Screen: EditScreen,
+                Name: "➕ Add",
+                Action: "New",
+                ID: 3
+            },
+            {
+                Screen: StockScreen,
+                Name: "📋 Stock",
+                Action: "Navigate",
+                ID: 4
+            }
+        );
+        
+        // Menu Items Mobile
+        colMobileMenu = Table(
+            {
+                Screen: Home,
+                Name: "🏠",
+                ScreenName: "Home",
+                Action: "Navigate",
+                ID: 0
+            },
+            {
+                Screen: Home,
+                Name: "🔎",
+                ScreenName: "Search",
+                Action: "Navigate",
+                ID: 1
+            },
+            {
+                Screen: EditScreen,
+                Name: "✏️",
+                ScreenName: "Edit",
+                Action: "Edit",
+                ID: 2
+            },
+            {
+                Screen: StockScreen,
+                Name: "📋",
+                ScreenName: "Stock",
+                Action: "Navigate",
+                ID: 4
+            }
+        );
+        tabActions =  Table(
+            {
+                Name: "Edit",
+                ID: 1
+            },
+            {
+                Name: "Jira",
+                ID: 2
+            },
+            {
+                Name: "Support",
+                ID: 3
+            },
+            {
+                Name: "SharePoint",
+                ID: 4
+            }
+        );
+        gblProfile = Office365Users.MyProfileV2();
+        gblUserId = gblProfile.id;
+        gblUserDisplayName = gblProfile.displayName;
+        gblUserEmail = gblProfile.mail;
+        gblSelectedUser = gblUserId;
+        gblUserPhotoCache =
+        {
+            UserId: gblUserId,
+            Photo: Office365Users.UserPhotoV2(gblUserId),
+            Time: Now()
+        };
+        
+            // Menu Stock Screen
+        colStockMenu = Table(
+            {
+                Screen: Home,
+                Name: "🏠 Home",
+                Action: "Navigate",
+                ID: 0
+            },
+            {
+                Screen: Home,
+                Name: "🔎 Search",
+                Action: "Navigate",
+                ID: 1
+            },
+            {
+                Screen: EditScreen,
+                Name: "✏️ Edit",
+                Action: "Edit",
+                ID: 2
+            },
+            {
+                Screen: EditScreen,
+                Name: "➕ Add",
+                Action: "New",
+                ID: 3
+            },
+            {
+                Screen: StockScreen,
+                Name: "📋 Stock",
+                Action: "Navigate",
+                ID: 4
+            },  
+            {
+                Screen: StockScreen,
+                Name: "💻 Laptop's",
+                Action: "Navigate",
+                ID: 10
+            },
+            {
+                Screen: StockScreen,
+                Name: "🌳 Tablet's",
+                Action: "Navigate",
+                ID: 12
+            },
+            {
+                Screen: StockScreen,
+                Name: "📱 Phones",
+                Action: "Navigate",
+                ID: 11
+            },
+            {
+                Screen: StockScreen,
+                Name: "🎧 Other",
+                Action: "Navigate",
+                ID: 13
+            }
+        );
+        colMobStockMenu = Table(
+            {
+                Screen: Home,
+                Name: "🏠",
+                Action: "Navigate",
+                ID: 0
+            },
+            {
+                Screen: StockScreen,
+                Name: "📋",
+                ID: 4
+            },
+            {
+                Screen: StockScreen,
+                Name: "💻",
+                Action: "Navigate",
+                ID: 10
+            },
+            {
+                Screen: StockScreen,
+                Name: "🌳",
+                Action: "Navigate",
+                ID: 12
+            },
+            {
+                Screen: StockScreen,
+                Name: "📱",
+                Action: "Navigate",
+                ID: 11
+            },
+            {
+                Screen: StockScreen,
+                Name: "🎧",
+                Action: "Navigate",
+                ID: 13
+            }
+        );
+        
+        gblAppColors = {
+            // Fluent Design Colors
+            BackgroundDark: ColorValue("#2d2c2c"),
+            BackgroundDefault: ColorValue("#e6ebe3"),
+            MessagesDarkWebErrorBlock: ColorValue("#442726"),
+            MessagesDarkWebErrorBlockIcon: ColorValue("#f57821"),
+            MessagesDarkWebSevereWarning: ColorValue("#4F2A0F"),
+            MessagesDarkWebSevereWarningIcon: ColorValue("#FCE100"),
+            MessagesDarkWebSuccess: ColorValue("#393D1B"),
+            MessagesDarkWebSuccessIcon: ColorValue("#b2d235"),
+            MessagesDarkWebWarning: ColorValue("#433519"),
+            MessagesDarkWebWarningIcon: ColorValue("#C8C6C4"),
+            MessagesDefaultWebErrorBlock: ColorValue("#ab4b52"),
+            MessagesDefaultWebErrorBlockIcon: ColorValue("#f57821"),
+            MessagesDefaultWebSevereWarning: ColorValue("#fed9cc"),
+            MessagesDefaultWebSevereWarningIcon: ColorValue("#d83b01"),
+            MessagesDefaultWebSuccess: ColorValue("#dff6dd"),
+            MessagesDefaultWebSuccessIcon: ColorValue("#107c10"),
+            MessagesDefaultWebWarning: ColorValue("#fff4ce"),
+            MessagesDefaultWebWarningIcon: ColorValue("#797673"),
+            NeutralMobileBlack: ColorValue("#000000"),
+            NeutralMobileGray100: ColorValue("#E1E1E1"),
+            NeutralMobileGray200: ColorValue("#C8C8C8"),
+            NeutralMobileGray25: ColorValue("#F8F8F8"),
+            NeutralMobileGray300: ColorValue("#ACACAC"),
+            NeutralMobileGray400: ColorValue("#919191"),
+            NeutralMobileGray50: ColorValue("#e6ebe3"),
+            NeutralMobileGray500: ColorValue("#6E6E6E"),
+            NeutralMobileGray600: ColorValue("#404040"),
+            NeutralMobileGray700: ColorValue("#303030"),
+            NeutralMobileGray800: ColorValue("#292929"),
+            NeutralMobileGray900: ColorValue("#212121"),
+            NeutralMobileGray950: ColorValue("#294238"),
+            NeutralMobileWhite: ColorValue("#FFFFFF"),
+            NeutralWebBlack: ColorValue("#000000"),
+            NeutralWebGray10: ColorValue("#FAF9F8"),
+            NeutralWebGray100: ColorValue("#979593"),
+            NeutralWebGray110: ColorValue("#8A8886"),
+            NeutralWebGray120: ColorValue("#797775"),
+            NeutralWebGray130: ColorValue("#605E5C"),
+            NeutralWebGray140: ColorValue("#484644"),
+            NeutralWebGray150: ColorValue("#3B3A39"),
+            NeutralWebGray160: ColorValue("#323130"),
+            NeutralWebGray170: ColorValue("#292827"),
+            NeutralWebGray180: ColorValue("#252423"),
+            NeutralWebGray190: ColorValue("#201f1e"),
+            NeutralWebGray20: ColorValue("#F3F2F1"),
+            NeutralWebGray200: ColorValue("#1B1A19"),
+            NeutralWebGray210: ColorValue("#161514"),
+            NeutralWebGray220: ColorValue("#11100F"),
+            NeutralWebGray30: ColorValue("#EDEBE9"),
+            NeutralWebGray40: ColorValue("#E1DFDD"),
+            NeutralWebGray50: ColorValue("#D2D0CE"),
+            NeutralWebGray60: ColorValue("#C8C6C4"),
+            NeutralWebGray70: ColorValue("#BEBBB8"),
+            NeutralWebGray80: ColorValue("#B3B0AD"),
+            NeutralWebGray90: ColorValue("#A19F9D"),
+            NeutralWebWhite: ColorValue("#FFFFFF"),
+            OverlayTransparent: RGBA(0, 0, 0, 0),
+            OverlayLight: RGBA(230, 235, 227, 0.75),
+            OverlayDark: RGBA(41, 66, 56, 0.75),
+            TeamsDefaultShade20: ColorValue("#192822"),
+            TeamsDefaultShade10: ColorValue("#21352d"),
+            TeamsDarkShade10: ColorValue("#405c52"),
+            TeamsDarkPrimary: ColorValue("#1f322b"),
+            TeamsDarkTint10: ColorValue("#8fa89d"),
+            TeamsDarkTint20: ColorValue("#607d71"),
+            TeamsDarkTint30: ColorValue("#395247"),
+            TeamsDarkTint40: ColorValue("#17251f"),
+            TeamsDefaultPrimary: ColorValue("#f57821"),
+            TeamsDarkShade30: ColorValue("#7c998e"),
+            TeamsDarkShade20: ColorValue("#66857a"),
+            TeamsDefaultTint10: ColorValue("#38554A"),
+            TeamsDefaultTint20: ColorValue("#42685b"),
+            TeamsDefaultTint30: ColorValue("#5a7b6e"),
+            TeamsDefaultTint40: ColorValue("#b0c6bd"),
+            TeamsDefaultTint50: ColorValue("#e3ece9"),
+            Status1: ColorValue("#b2d235"),
+            Status2: ColorValue("#50b748"),
+            Status3: ColorValue("#c40233"),
+            Status4: ColorValue("#fb9902"),
+            Status5: ColorValue("#778899")
+        };
+        
+    OnStart: |-
+        =Set(
+            varSpinner,
+            true
+        );
+        Set(
+            varSearch,
+            false
+        );
+        Set(
+            varMain,
+            true
+        );
+        Set(
+            varTab,
+            1
+        );
+        ClearCollect(
+            colAssets,
+            'Hardware Asset List'
+        );
+        ClearCollect(
+            colEmployee,
+            'Asset Management List'
+        );
+        //ClearCollect(colAssets,
+        // AddColumns(colAssets,"M3652",LookUp(colEmployee, ,'GC Employee - Microsoft')));
+        //Collect(colAssets,
+        //  AddColumns(colHardware,"Team",LookUp(colAssets,'Assigned'.Value=colEmployee[@Title],'GC Employee Non Microsoft')));
+        
+        //Add all columns from another table code
+        
+        //AddColumns(
+        //    colAssets,
+          //  "UserPhoto",
+            //If(
+                // Check if the user has a email and user photo
+              //  !IsBlank(M365.Email) And Office365Users.UserPhotoMetadata(M365.Email).HasPhoto,
+                //Get User Photo
+              //  Office365Users.UserPhotoV2(M365.Email)
+           // )
+        //);
+        ClearCollect(
+            colAssets,
+            DropColumns(
+                colAssets,
+                "Author",
+                "Editor",
+                "OData__ColorTag",
+                "{Attachments}",
+                "ComplianceAssetId",
+                "{ModerationComment}",
+                "{FilenameWithExtension}",
+                "{ModerationStatus}",
+                "{TriggerWindowEndToken}",
+                "{TriggerWindowStartToken}"
+            )
+        );
+        ClearCollect(
+            colPhone,
+            '02 Phone Numbers'
+        );
+        ClearCollect(
+            colITSM,
+            'Asset to Jira'
+        );
+        ClearCollect(
+            colStock,
+            'Billericay Stock'
+        );
+        Set(
+            varSpinner,
+            false
+        )
+    StartScreen: =
+    Theme: =GreenTheme
+
+    Host As hostControl.DefaultHostControlVariant:
+        OnCancel: =false
+        OnEdit: =false
+        OnNew: =false
+        OnSave: =false
+        OnView: =false
+
