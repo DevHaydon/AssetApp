@@ -860,7 +860,8 @@
                             Set(varEmployee,LookUp('Asset Management List',ID=ThisItem.'Assigned To'.Id));
                             Set(varPhone,LookUp('02 Phone Numbers',ID=ThisItem.PhoneNumber.Id));
                             Set(varTab, 1);
-                            Set(varAssetAssigned, varEmployee[@AllocatedAssets]);
+                            ClearCollect(colAllocatedAssets, ShowColumns(varEmployee[@AllocatedAssets], "Id", "Value" ));
+                            
                             ClearCollect(colITSM, LookUp('Asset to Jira',Asset.Value=ThisItem.Title));
                             ClearCollect(varAssetRecord, {Phone:varPhone, Employee:varEmployee, Asset:varAsset});
                             Set(varRecordType, "View");

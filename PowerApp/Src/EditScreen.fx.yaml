@@ -601,7 +601,7 @@
                                         'Team No.': txtEmpTeam.Value,
                                         Company:txtEmpCompany.Value,
                                         Department:drpDCEmployeeDepartment.Selected,
-                                        'Allocated Assets':comboDCEmpAssets.SelectedItems,
+                                        'Allocated Assets':colAllocatedAssets,
                                         Active:togEmpActive.Checked,
                                         'Phone Number':comboDCEmpPhone.Selected
                                     }
@@ -3246,7 +3246,7 @@
                                         FontWeight: =FontWeight.Semibold
                                         Height: =conDCAssetDevice_4.Height * 2
                                         Text: ="Assigned Assets"
-                                        Width: =conDCAssetDevice_4.X - Self.X 
+                                        Width: =conDCAssetDevice_4.X - Self.X - 20
                                         X: =40
                                         Y: =(Parent.Height - Self.Height) / 2
                                         ZIndex: =1
@@ -3275,19 +3275,21 @@
                                         ZIndex: =2
 
                                     conDCAssetDevice_4 As groupContainer.manualLayoutContainer:
+                                        BorderColor: =RGBA(17, 61, 15, 1)
+                                        BorderThickness: =1
                                         DropShadow: =DropShadow.Semilight
                                         Height: =Parent.Height * 0.8
                                         RadiusBottomLeft: =4
                                         RadiusBottomRight: =4
                                         RadiusTopLeft: =4
                                         RadiusTopRight: =4
-                                        Width: =Parent.Width / 2
+                                        Width: =Parent.Width * 0.8
                                         X: =(Parent.Width - Self.Width - 50)
                                         Y: =(Parent.Height - Self.Height) / 2
                                         ZIndex: =3
 
                                         Container2 As groupContainer.verticalAutoLayoutContainer:
-                                            DropShadow: =DropShadow.Light
+                                            DropShadow: =DropShadow.Regular
                                             Fill: =Color.WhiteSmoke
                                             Height: =Parent.Height
                                             LayoutDirection: =LayoutDirection.Vertical
@@ -3319,15 +3321,16 @@
                                                 Gallery2 As gallery.galleryHorizontal:
                                                     BorderColor: =RGBA(166, 166, 166, 1)
                                                     DelayItemLoading: =true
-                                                    Items: =varAssetAssigned
+                                                    Items: =colAllocatedAssets
                                                     LayoutMinHeight: =30
                                                     LayoutMinWidth: =150
                                                     LoadingSpinner: =LoadingSpinner.Data
+                                                    OnSelect: =Remove(colAllocatedAssets, ThisItem); Set(varChange, true)
                                                     ShowNavigation: =true
                                                     ShowScrollbar: =false
-                                                    TemplateFill: =gblAppColors.TeamsDefaultTint30
-                                                    TemplatePadding: =2.5
-                                                    TemplateSize: =150
+                                                    TemplateFill: =
+                                                    TemplatePadding: =3
+                                                    TemplateSize: =110
                                                     Width: =Parent.Width
                                                     X: =40
                                                     Y: =40
@@ -3339,7 +3342,7 @@
                                                         DisabledBorderColor: =RGBA(0, 0, 0, 0)
                                                         DisabledColor: =RGBA(166, 166, 166, 1)
                                                         DisabledFill: =RGBA(244, 244, 244, 1)
-                                                        Fill: =RGBA(0, 0, 0, 0)
+                                                        Fill: =gblAppColors.TeamsDarkTint20
                                                         FocusedBorderColor: =ColorFade(Self.Fill, -75%)
                                                         Font: =Font.'Segoe UI'
                                                         FontWeight: =FontWeight.Semibold
@@ -3351,13 +3354,9 @@
                                                         PressedBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -50%)
                                                         PressedColor: =RGBA(255, 255, 255, 1)
                                                         PressedFill: =ColorFade(RGBA(73, 130, 5, 1), -30%)
-                                                        RadiusBottomLeft: =4
-                                                        RadiusBottomRight: =4
-                                                        RadiusTopLeft: =4
-                                                        RadiusTopRight: =4
-                                                        Size: =15
-                                                        Text: ="❌" & ThisItem.Value
-                                                        Width: =150
+                                                        Size: =12
+                                                        Text: ="❌ " & ThisItem.Value
+                                                        Width: =Parent.TemplateWidth
                                                         ZIndex: =1
 
                                                 "inpSearchAssignedAsset As 'Text input'":
@@ -3394,14 +3393,14 @@
                                                         Filter
                                                         (
                                                             colAssets,
-                                                            (inpSearchAssignedAsset.Value in 'Assigned To'.Value || IsBlank(inpSearchAssignedAsset.Value))
+                                                            (Upper(inpSearchAssignedAsset.Value) in 'Assigned To'.Value || IsBlank(inpSearchAssignedAsset.Value))
                                                         ),Modified,SortOrder.Descending)
                                                     Layout: =Layout.Vertical
                                                     LoadingSpinner: =LoadingSpinner.Data
                                                     OnSelect: |
                                                         =
                                                     TemplateFill: =gblAppColors.TeamsDefaultTint40
-                                                    TemplateSize: =50
+                                                    TemplateSize: =35
                                                     Transition: =Transition.Pop
                                                     Width: =Parent.Width
                                                     WrapCount: =2
@@ -3422,13 +3421,15 @@
                                                         ZIndex: =1
 
                                                         CheckboxCanvas1 As Checkbox:
+                                                            Checked: =!IsBlank(LookUp(colAllocatedAssets, Id=ThisItem.ID))
                                                             DisplayMode: =DisplayMode.Edit
                                                             Height: =32
                                                             Label: =""
                                                             LayoutMinHeight: =32
                                                             LayoutMinWidth: =160
-                                                            OnCheck: =false
-                                                            OnUncheck: =false
+                                                            OnCheck: =ClearCollect(colAllocatedAssets, ThisItem); Set(varChange, true)
+                                                            OnSelect: =ClearCollect(colAllocatedAssets, ThisItem);Set(varChange, true)
+                                                            OnUncheck: =Remove(colAllocatedAssets, ThisItem);Set(varChange, true)
                                                             Width: =30
                                                             X: =0
                                                             Y: =0
