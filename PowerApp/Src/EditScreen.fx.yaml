@@ -589,6 +589,7 @@
                                 )
                                 )));
                                 //Set(varPhone, Blank());
+                                
                                 Set(varResultEmployee,
                                 Patch(
                                     'Asset Management List',
@@ -601,19 +602,20 @@
                                         'Team No.': txtEmpTeam.Value,
                                         Company:txtEmpCompany.Value,
                                         Department:drpDCEmployeeDepartment.Selected,
-                                        'Allocated Assets':colAllocatedAssets,
+                                        'Allocated Assets': colAllocatedAssets,
                                         Active:togEmpActive.Checked,
                                         'Phone Number':comboDCEmpPhone.Selected
                                     }
                                 )
                                 );
                                 //Set(varEmployee, Blank());
-                                Notify("Updated" & varAsset.Title, NotificationType.Success, 4000);
+                                Notify("Updated - " & varAsset.Title & " - " & varEmployee.Title, NotificationType.Success, 4000);
                                 Set(varSubmitClicked, false);
                                 Set(varChange, false);
                                 Set(varSpinner, false);
                                 Select(btnRefresh);
-                                Navigate(Home)
+                                Navigate(Home);
+                                Set(varTab, 1)
                             PressedBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -50%)
                             PressedColor: =RGBA(255, 255, 255, 1)
                             PressedFill: =ColorFade(RGBA(73, 130, 5, 1), -30%)
@@ -3423,16 +3425,21 @@
 
                                                         CheckboxCanvas1 As Checkbox:
                                                             BasePaletteColor: =
-                                                            Checked: =!IsBlank(LookUp(colAllocatedAssets, Id=ThisItem.ID))
+                                                            Checked: =!IsBlank(LookUp(colAllocatedAssets, ID=ThisItem.ID))
                                                             DisplayMode: =DisplayMode.Edit
                                                             FontColor: =
                                                             Height: =32
                                                             Label: =""
                                                             LayoutMinHeight: =32
                                                             LayoutMinWidth: =160
-                                                            OnCheck: =ClearCollect(colAllocatedAssets, LookUp(colAllocatedAssets, Id=ID)); Set(varChange, true)
-                                                            OnSelect: =ClearCollect(colAllocatedAssets, ThisItem);Set(varChange, true)
-                                                            OnUncheck: =Remove(colAllocatedAssets, ThisItem);Set(varChange, true)
+                                                            OnCheck: |-
+                                                                =Collect(colAllocatedAssets, 
+                                                                { Id: ThisItem.ID,
+                                                                Value: ThisItem.Title
+                                                                }
+                                                                ); Set(varChange, true)
+                                                            OnSelect: =
+                                                            OnUncheck: =Remove(colAllocatedAssets, LookUp(colAllocatedAssets, ThisItem.ID=Id));Set(varChange, true)
                                                             Width: =30
                                                             X: =0
                                                             Y: =0
