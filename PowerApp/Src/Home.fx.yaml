@@ -860,7 +860,7 @@
                             Set(varEmployee,LookUp('Asset Management List',ID=ThisItem.'Assigned To'.Id));
                             Set(varPhone,LookUp('02 Phone Numbers',ID=ThisItem.PhoneNumber.Id));
                             Set(varTab, 1);
-                            ClearCollect(colAllocatedAssets, ShowColumns(varEmployee[@AllocatedAssets], "Id", "Value" ));
+                            ClearCollect(colAllocatedAssets, ShowColumns(varEmployee[@'Allocated Assets'], "Id", "Value" ));
                             
                             ClearCollect(colITSM, LookUp('Asset to Jira',Asset.Value=ThisItem.Title));
                             ClearCollect(varAssetRecord, {Phone:varPhone, Employee:varEmployee, Asset:varAsset});
@@ -2293,10 +2293,10 @@
         Height: =23
         OnSelect: |-
             =Set(varSpinner, true);
-            ClearCollect(colAssetsAssigned, colEmployee[@AllocatedAssets]);
+            ClearCollect(colAssetsAssigned, colEmployee[@'Allocated Assets']);
             
             ClearCollect(colGroupedAssetsAssigned,
-            {id:Ungroup(colAssetsAssigned[@AllocatedAssets], "AllocatedAssets"),value: colAssetsAssigned[@AllocatedAssets]});
+            {id:Ungroup(colAssetsAssigned[@'Allocated Assets'], "AllocatedAssets"),value: colAssetsAssigned[@'Allocated Assets']});
             
             
             //Get a table stored in a cell code

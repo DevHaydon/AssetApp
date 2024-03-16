@@ -3360,8 +3360,10 @@
                                                         ZIndex: =1
 
                                                 "inpSearchAssignedAsset As 'Text input'":
+                                                    BasePaletteColor: =
                                                     DelayOutput: =false
                                                     DisplayMode: =DisplayMode.Edit
+                                                    FontColor: =
                                                     Height: =Parent.Height
                                                     LayoutMinHeight: =32
                                                     LayoutMinWidth: =320
@@ -3420,8 +3422,10 @@
                                                         ZIndex: =1
 
                                                         CheckboxCanvas1 As Checkbox:
+                                                            BasePaletteColor: =
                                                             Checked: =!IsBlank(LookUp(colAllocatedAssets, Id=ThisItem.ID))
                                                             DisplayMode: =DisplayMode.Edit
+                                                            FontColor: =
                                                             Height: =32
                                                             Label: =""
                                                             LayoutMinHeight: =32
