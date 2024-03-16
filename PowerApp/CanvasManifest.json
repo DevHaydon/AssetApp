@@ -102,7 +102,7 @@
       "zeroalltabindexes": false
     },
     "Author": "",
-    "BindingErrorCount": 28,
+    "BindingErrorCount": 48,
     "ContainsThirdPartyPcfControls": false,
     "DefaultConnectedDataSourceMaxGetRowsCount": 2000,
     "DocumentAppType": "DesktopOrTablet",
@@ -121,7 +121,7 @@
     "ManualOfflineProfileId": "",
     "Name": "Asset Management App",
     "OriginatingVersion": "1.336",
-    "ParserErrorCount": 1,
+    "ParserErrorCount": 4,
     "ShowStatusBar": true
   },
   "PublishInfo": {

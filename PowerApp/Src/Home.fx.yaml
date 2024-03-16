@@ -2290,7 +2290,18 @@
         BasePaletteColor: =
         DisplayMode: =DisplayMode.Edit
         FontColor: =
-        Height: =32
+        Height: =23
+        OnSelect: |-
+            =Set(varSpinner, true);
+            ClearCollect(colAssetsAssigned, colEmployee[@AllocatedAssets]);
+            
+            ClearCollect(colGroupedAssetsAssigned,
+            {id:Ungroup(colAssetsAssigned[@AllocatedAssets], "AllocatedAssets"),value: colAssetsAssigned[@AllocatedAssets]});
+            
+            
+            //Get a table stored in a cell code
+            ClearCollect(colUngroupedAssets,Ungroup(colGroupedAssetsAssigned,"value"));
+            Set(varSpinner, false);
         Width: =96
         X: =40
         Y: =40

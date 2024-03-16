@@ -1,0 +1,194 @@
+"'GC Table' As CanvasComponent":
+    colTable: |-
+        =Table({Id: 1, Title: "ICT", AllocatedAssets:Table({Id: 2, Title: "ICTAllocated"})})
+    Fill: =RGBA(0, 0, 0, 0)
+    Height: =200
+    varRecord: =varAsset
+    Width: =600
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    conMain As groupContainer.manualLayoutContainer:
+        BorderColor: =RGBA(17, 61, 15, 1)
+        BorderThickness: =1
+        DropShadow: =DropShadow.Semilight
+        Height: =Parent.Height
+        RadiusBottomLeft: =4
+        RadiusBottomRight: =4
+        RadiusTopLeft: =4
+        RadiusTopRight: =4
+        Width: =Parent.Width
+        ZIndex: =1
+
+        conVertical As groupContainer.verticalAutoLayoutContainer:
+            DropShadow: =DropShadow.Regular
+            Fill: =Color.WhiteSmoke
+            Height: =Parent.Height
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutMode: =LayoutMode.Auto
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Width: =Parent.Width
+            ZIndex: =3
+
+            conFilter As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderStyle: =BorderStyle.None
+                DropShadow: =DropShadow.Light
+                FillPortions: =0
+                Height: =30
+                LayoutAlignItems: =LayoutAlignItems.Center
+                LayoutGap: =5
+                LayoutMinHeight: =30
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                LayoutOverflowX: =LayoutOverflow.Scroll
+                RadiusBottomLeft: =4
+                RadiusBottomRight: =4
+                RadiusTopLeft: =4
+                RadiusTopRight: =4
+                Width: =Parent.Width
+                ZIndex: =1
+
+                galFilter As gallery.galleryHorizontal:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =RGBA(166, 166, 166, 1)
+                    DelayItemLoading: =true
+                    Height: =Parent.Height
+                    Items: =colAllocatedAssets
+                    LayoutMinHeight: =30
+                    LayoutMinWidth: =150
+                    LoadingSpinner: =LoadingSpinner.Data
+                    OnSelect: =Remove(colAllocatedAssets, ThisItem); Set(varChange, true)
+                    ShowNavigation: =true
+                    ShowScrollbar: =false
+                    TemplateFill: =
+                    TemplatePadding: =3
+                    TemplateSize: =110
+                    Width: =Parent.Width
+                    X: =40
+                    Y: =40
+                    ZIndex: =1
+
+                    btnSelection As button:
+                        Align: =Align.Left
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =gblAppColors.TeamsDarkTint20
+                        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =25
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(RGBA(73, 130, 5, 1), -10%)
+                        OnSelect: =Select(Parent)
+                        PressedBorderColor: =ColorFade(RGBA(73, 130, 5, 1), -50%)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =ColorFade(RGBA(73, 130, 5, 1), -30%)
+                        Size: =12
+                        Text: ="❌ " & ThisItem.Value
+                        Width: =Parent.TemplateWidth
+                        ZIndex: =1
+
+                "inpSearch As 'Text input'":
+                    BasePaletteColor: =
+                    DelayOutput: =false
+                    DisplayMode: =DisplayMode.Edit
+                    FontColor: =
+                    Height: =Parent.Height
+                    LayoutMinHeight: =32
+                    LayoutMinWidth: =320
+                    Placeholder: ="🔍 Search Asset"
+                    Width: =Parent.Width / 3
+                    X: =0
+                    Y: =0
+                    ZIndex: =2
+
+            conBody As groupContainer.manualLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                DropShadow: =DropShadow.Light
+                Height: =Parent.Height
+                LayoutMinHeight: =Parent.Height - conFilter.Height
+                LayoutMinWidth: =Parent.Width
+                RadiusBottomLeft: =4
+                RadiusBottomRight: =4
+                RadiusTopLeft: =4
+                RadiusTopRight: =4
+                Width: =Parent.Width
+                ZIndex: =2
+
+                "galItems As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+                    BorderColor: =RGBA(166, 166, 166, 1)
+                    DelayItemLoading: =true
+                    Height: =Parent.Height
+                    Items: |
+                        =Filter
+                        (
+                            colAllocatedAssets,
+                            Upper(inpSearch.Value) =  || IsBlank(inpSearch.Value))
+                        )
+                    Layout: =Layout.Vertical
+                    LoadingSpinner: =LoadingSpinner.Data
+                    OnSelect: |
+                        =
+                    TemplateFill: =gblAppColors.TeamsDefaultTint40
+                    TemplateSize: =35
+                    Transition: =Transition.Pop
+                    Width: =Parent.Width
+                    WrapCount: =2
+                    ZIndex: =2
+
+                    conItems As groupContainer.horizontalAutoLayoutContainer:
+                        DropShadow: =DropShadow.Regular
+                        Height: =Parent.TemplateHeight
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutGap: =5
+                        LayoutJustifyContent: =LayoutJustifyContent.Center
+                        LayoutMode: =LayoutMode.Auto
+                        RadiusBottomLeft: =4
+                        RadiusBottomRight: =4
+                        RadiusTopLeft: =4
+                        RadiusTopRight: =4
+                        Width: =Parent.TemplateWidth
+                        ZIndex: =1
+
+                        chkboxSelected As Checkbox:
+                            BasePaletteColor: =
+                            Checked: =!IsBlank(LookUp(colAllocatedAssets, Id=ThisItem.ID))
+                            DisplayMode: =DisplayMode.Edit
+                            FontColor: =
+                            Height: =32
+                            Label: =""
+                            LayoutMinHeight: =32
+                            LayoutMinWidth: =160
+                            OnCheck: =ClearCollect(colAllocatedAssets, LookUp(colAllocatedAssets, Id=ID)); Set(varChange, true)
+                            OnSelect: =ClearCollect(colAllocatedAssets, ThisItem);Set(varChange, true)
+                            OnUncheck: =Remove(colAllocatedAssets, ThisItem);Set(varChange, true)
+                            Width: =30
+                            X: =0
+                            Y: =0
+                            ZIndex: =2
+
+                        txtItemDetail As label:
+                            BorderColor: =RGBA(0, 0, 0, 0)
+                            BorderStyle: =BorderStyle.None
+                            Color: =RGBA(51, 51, 51, 1)
+                            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FocusedBorderThickness: =4
+                            Font: =Font.'Segoe UI'
+                            FontWeight: =FontWeight.Semibold
+                            Height: =conItems.Height
+                            PaddingLeft: =20
+                            Size: =13
+                            Text: =ThisItem.Title
+                            Tooltip: ="""Asset No."""
+                            Width: =Parent.Width - chkboxSelected.Width
+                            ZIndex: =3
+

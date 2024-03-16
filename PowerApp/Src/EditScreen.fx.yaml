@@ -3389,12 +3389,11 @@
                                                     DelayItemLoading: =true
                                                     Height: =Parent.Height
                                                     Items: |-
-                                                        =Sort(
-                                                        Filter
+                                                        =Filter
                                                         (
                                                             colAssets,
-                                                            (Upper(inpSearchAssignedAsset.Value) in 'Assigned To'.Value || IsBlank(inpSearchAssignedAsset.Value))
-                                                        ),Modified,SortOrder.Descending)
+                                                            (Upper(inpSearchAssignedAsset.Value) = Title || IsBlank(inpSearchAssignedAsset.Value))
+                                                        )
                                                     Layout: =Layout.Vertical
                                                     LoadingSpinner: =LoadingSpinner.Data
                                                     OnSelect: |
@@ -3427,7 +3426,7 @@
                                                             Label: =""
                                                             LayoutMinHeight: =32
                                                             LayoutMinWidth: =160
-                                                            OnCheck: =ClearCollect(colAllocatedAssets, ThisItem); Set(varChange, true)
+                                                            OnCheck: =ClearCollect(colAllocatedAssets, LookUp(colAllocatedAssets, Id=ID)); Set(varChange, true)
                                                             OnSelect: =ClearCollect(colAllocatedAssets, ThisItem);Set(varChange, true)
                                                             OnUncheck: =Remove(colAllocatedAssets, ThisItem);Set(varChange, true)
                                                             Width: =30
