@@ -692,7 +692,6 @@
                             Color: =gblAppColors.TeamsDefaultTint10
                             DisabledBorderColor: =RGBA(0, 0, 0, 0)
                             DisabledColor: =gblAppColors.NeutralMobileGray700
-                            FillPortions: =conGalAsset.FillPortions
                             FocusedBorderThickness: =4
                             Font: =Font.'Segoe UI'
                             FontWeight: =FontWeight.Semibold
@@ -710,7 +709,6 @@
                             Color: =RGBA(51, 51, 51, 1)
                             DisabledBorderColor: =RGBA(0, 0, 0, 0)
                             DisabledColor: =RGBA(166, 166, 166, 1)
-                            FillPortions: =conGalEmployee.FillPortions
                             FocusedBorderThickness: =4
                             Font: =Font.'Segoe UI'
                             FontWeight: =FontWeight.Semibold
@@ -719,6 +717,7 @@
                             Text: ="Employee"
                             Visible: =conGalEmployee.Visible
                             Width: =conGalEmployee.Width
+                            X: =conGalEmployee.X
                             ZIndex: =2
 
                         lblTypeTitle As label:
@@ -729,14 +728,14 @@
                             Color: =gblAppColors.TeamsDefaultTint10
                             DisabledBorderColor: =RGBA(0, 0, 0, 0)
                             DisabledColor: =gblAppColors.NeutralMobileGray700
-                            FillPortions: =conGalType.FillPortions
                             FocusedBorderThickness: =4
                             Font: =Font.'Segoe UI'
                             FontWeight: =FontWeight.Semibold
                             LayoutMinWidth: =0
                             Text: ="Type"
                             Visible: =conGalType.Visible
-                            Width: =conGalEmployee.Width
+                            Width: =conGalType.Width
+                            X: =conGalType.X
                             ZIndex: =3
 
                         lblStatusTitle As label:
@@ -747,7 +746,6 @@
                             Color: =gblAppColors.TeamsDefaultTint10
                             DisabledBorderColor: =RGBA(0, 0, 0, 0)
                             DisabledColor: =gblAppColors.NeutralMobileGray700
-                            FillPortions: =conGalStatus.FillPortions
                             FocusedBorderThickness: =4
                             Font: =Font.'Segoe UI'
                             FontWeight: =FontWeight.Semibold
@@ -755,6 +753,7 @@
                             Text: ="Status"
                             Visible: =conGalStatus.Visible
                             Width: =conGalStatus.Width
+                            Y: =conGalStatus.X
                             ZIndex: =4
 
                         lblMakeTitle As label:
@@ -765,7 +764,6 @@
                             Color: =gblAppColors.TeamsDefaultTint10
                             DisabledBorderColor: =RGBA(0, 0, 0, 0)
                             DisabledColor: =gblAppColors.NeutralMobileGray700
-                            FillPortions: =conGalMake.FillPortions
                             FocusedBorderThickness: =4
                             Font: =Font.'Segoe UI'
                             FontWeight: =FontWeight.Semibold
@@ -773,6 +771,7 @@
                             Text: ="Make & Model"
                             Visible: =conGalMake.Visible
                             Width: =conGalMake.Width
+                            X: =conGalMake.x
                             ZIndex: =5
 
                         lblLinksTitle As label:
@@ -783,7 +782,6 @@
                             Color: =gblAppColors.TeamsDefaultTint10
                             DisabledBorderColor: =RGBA(0, 0, 0, 0)
                             DisabledColor: =gblAppColors.NeutralMobileGray700
-                            FillPortions: =conGalLinks.FillPortions
                             FocusedBorderThickness: =4
                             Font: =Font.'Segoe UI'
                             FontWeight: =FontWeight.Semibold
@@ -791,6 +789,7 @@
                             Text: ="Links & Actions"
                             Visible: =conGalAssets.Visible
                             Width: =conGalLinks.Width
+                            X: =conGalLinks.X
                             ZIndex: =6
 
                 conMainBodyMain As groupContainer.manualLayoutContainer:
@@ -890,7 +889,7 @@
                             ZIndex: =1
 
                             conGalAsset As groupContainer.manualLayoutContainer:
-                                FillPortions: =If(App.ActiveScreen.Size <= 2, 0.6, 0.6)
+                                FillPortions: =0.6
                                 Height: =60
                                 LayoutMinHeight: =Parent.Height
                                 LayoutMinWidth: =If(App.ActiveScreen.Size <= 2, 100, 125)
@@ -920,7 +919,6 @@
 
                             conGalEmployee As groupContainer.manualLayoutContainer:
                                 AlignInContainer: =AlignInContainer.SetByContainer
-                                FillPortions: =If(App.ActiveScreen.Size <= 2, 1.2, 1)
                                 Height: =Parent.Height
                                 LayoutMinHeight: =galAssets.TemplateHeight - 10
                                 LayoutMinWidth: =100
@@ -995,7 +993,7 @@
 
                             conGalType As groupContainer.manualLayoutContainer:
                                 AlignInContainer: =AlignInContainer.SetByContainer
-                                FillPortions: =If(App.ActiveScreen.Size <= 2, TextInput1.Width + 10, 0.8)
+                                FillPortions: =If(App.ActiveScreen.Size <= 2, 0.5 , 0.8)
                                 Height: =Parent.Height
                                 LayoutMinHeight: =Parent.Height
                                 LayoutMinWidth: =If(App.ActiveScreen.Size <= 2, 30, 100)
@@ -2285,25 +2283,4 @@
             X: =(App.Width - Self.Width) / 2
             Y: =(App.Height - Self.Height) / 2
             ZIndex: =1
-
-    ButtonCanvas1 As Button:
-        BasePaletteColor: =
-        DisplayMode: =DisplayMode.Edit
-        FontColor: =
-        Height: =23
-        OnSelect: |-
-            =Set(varSpinner, true);
-            ClearCollect(colAssetsAssigned, colEmployee[@'Allocated Assets']);
-            
-            ClearCollect(colGroupedAssetsAssigned,
-            {id:Ungroup(colAssetsAssigned[@'Allocated Assets'], "AllocatedAssets"),value: colAssetsAssigned[@'Allocated Assets']});
-            
-            
-            //Get a table stored in a cell code
-            ClearCollect(colUngroupedAssets,Ungroup(colGroupedAssetsAssigned,"value"));
-            Set(varSpinner, false);
-        Width: =96
-        X: =40
-        Y: =40
-        ZIndex: =4
 

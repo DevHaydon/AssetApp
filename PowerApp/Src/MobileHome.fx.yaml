@@ -251,14 +251,16 @@
                             Set(
                                 varScannedRecord,
                                 Defaults('Hardware Asset List')
-                            ) & Set(varNew, true),
-                            Set(varItem,varRecord);
+                            ) & Set(varNew, true));
+                        
+                        
+                            Set(varAsset, LookUp('Hardware Asset List', ID=varRecord.ID));
                             Set(varEmployee,LookUp('Asset Management List',ID=varRecord.'Assigned To'.Id));
                             Set(varPhone,LookUp('02 Phone Numbers',ID=varRecord.PhoneNumber.Id));
                             Set(varTab, 1);
                             ClearCollect(colITSM, LookUp('Asset to Jira',Title=varRecord.Title));
-                            ClearCollect(varAssetRecord, {Phone:varPhone, Employee:varEmployee, Asset:varItem});  
-                        );
+                            ClearCollect(varAssetRecord, {Phone:varPhone, Employee:varEmployee, Asset:varAsset});  
+                        
                         Set(varSpinner, false);
                         If(
                             varNew,
