@@ -6261,7 +6261,7 @@
       "MetaDataIDKey": "",
       "Name": "conGalEmployee",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 2,
+      "ParentIndex": 1,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -6503,7 +6503,7 @@
       "MetaDataIDKey": "",
       "Name": "conGalLinks",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 6,
+      "ParentIndex": 5,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -6750,7 +6750,7 @@
       "MetaDataIDKey": "",
       "Name": "conGalMake",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 5,
+      "ParentIndex": 4,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -6997,7 +6997,7 @@
       "MetaDataIDKey": "",
       "Name": "conGalMobLinks",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 1,
+      "ParentIndex": 6,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -7236,7 +7236,7 @@
       "MetaDataIDKey": "",
       "Name": "conGalStatus",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 4,
+      "ParentIndex": 3,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -7478,7 +7478,7 @@
       "MetaDataIDKey": "",
       "Name": "conGalType",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 3,
+      "ParentIndex": 2,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -9800,7 +9800,7 @@
       "MetaDataIDKey": "%MainContainer.ID%",
       "Name": "conMainBody",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 2,
+      "ParentIndex": 1,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -10565,7 +10565,7 @@
       "MetaDataIDKey": "%SidebarContainer.ID%",
       "Name": "conMainSide",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 1,
+      "ParentIndex": 0,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -11224,7 +11224,7 @@
       "MetaDataIDKey": "",
       "Name": "conSearch",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 0,
+      "ParentIndex": 2,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {

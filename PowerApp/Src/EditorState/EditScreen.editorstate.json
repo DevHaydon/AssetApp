@@ -1328,7 +1328,7 @@
       "MetaDataIDKey": "",
       "Name": "btnTabEdit",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 0,
+      "ParentIndex": 1,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -1716,7 +1716,7 @@
       "MetaDataIDKey": "",
       "Name": "btnTabSelected_1",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 1,
+      "ParentIndex": 0,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -1970,7 +1970,7 @@
       "MetaDataIDKey": "",
       "Name": "btnUpdateEdit",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 0,
+      "ParentIndex": 1,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -2864,7 +2864,7 @@
       "MetaDataIDKey": "",
       "Name": "CheckboxCanvas1",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 1,
+      "ParentIndex": 0,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -38615,7 +38615,7 @@
       "MetaDataIDKey": "",
       "Name": "spnEditScreen",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 1,
+      "ParentIndex": 0,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -39931,7 +39931,7 @@
       "MetaDataIDKey": "",
       "Name": "txtAsset_5",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 0,
+      "ParentIndex": 1,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {

@@ -11,7 +11,7 @@
   },
   "Properties": {
     "AppCreationSource": "AppFromScreenTemplate",
-    "AppDescription": "",
+    "AppDescription": "App Management for the IT Service Desk at Ground Control. Letting you view, edit and assign IT assets to Employee's and Teams.\nStock take also able to be done on this app.",
     "AppPreviewFlagsMap": {
       "aibuilderserviceenrollment": false,
       "allowmultiplescreensincanvaspages": false,
@@ -126,7 +126,7 @@
   },
   "PublishInfo": {
     "AppName": "Asset Management App",
-    "BackgroundColor": "rgba(242, 242, 242, 1)",
+    "BackgroundColor": "rgba(255, 255, 255, 1)",
     "IconColor": "#f65810",
     "IconName": "",
     "LogoFileName": "logo.jpg",
